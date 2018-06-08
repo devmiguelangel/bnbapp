@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  Alert,
   Image,
   ImageBackground,
   StatusBar,
@@ -11,12 +12,58 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
+import { auth } from './../../utils/firebase';
+
 import styles from './../../assets/css/styles';
 
 export class SignInView extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: '',
+      password: '',
+    };
+  }
+  
   static navigationOptions = ({ navigation }) => ({
     header: null,
   })
+
+  handleSignIn = () => {
+    const { email, password } = this.state;
+
+    auth.signInWithEmailAndPassword(email, password)
+      .then(() => {
+        this.props.navigation.navigate('Home');
+      })
+      .catch(error => {
+        let message = '';
+
+        switch(error.code) {
+          case 'auth/invalid-email':
+            message = 'El correo electrónico no es válido.';
+            break;
+          case 'auth/user-disabled':
+            message = 'Su cuenta esta deshabilitada.';
+            break;
+          case 'auth/user-not-found':
+            message = 'Usuario no encontrado.';
+            break;
+          case 'auth/wrong-password':
+            message = 'Contraseña incorrecta.';
+            break;
+        }
+
+        Alert.alert(
+          'BNB Seguros',
+          message,
+          [
+            { text: 'OK', onPress: () => {} },
+          ],
+          { cancelable: false }
+        )
+      });
+  }
 
   render() {
     return (
@@ -42,6 +89,9 @@ export class SignInView extends Component {
               keyboardType="email-address"
               autoCapitalize="none"
               underlineColorAndroid="transparent"
+              autoCorrect={false}
+              value={this.state.email}
+              onChangeText={(email) => this.setState({ email })}
             />
           </View>
           <View style={styles.sigInInputBox}>
@@ -56,6 +106,8 @@ export class SignInView extends Component {
               autoCapitalize="none"
               underlineColorAndroid="transparent"
               secureTextEntry={true}
+              value={this.state.password}
+              onChangeText={(password) => this.setState({ password })}
             />
           </View>
 
@@ -78,6 +130,7 @@ export class SignInView extends Component {
         <TouchableOpacity
           style={styles.btnOne}
           activeOpacity={0.8}
+          onPress={this.handleSignIn}
         >
           <Text style={styles.btnOneText}>Iniciar Sesión</Text>
         </TouchableOpacity>
