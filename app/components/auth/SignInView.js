@@ -14,6 +14,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import { auth } from './../../utils/firebase';
 
+import Loading from './../../commons/Loading';
+
 import styles from './../../assets/css/styles';
 
 export class SignInView extends Component {
@@ -71,7 +73,9 @@ export class SignInView extends Component {
         source={require('./../../assets/img/bg-app.png')}
         style={styles.container}
       >
+        <Loading visible={true} />
         <StatusBar backgroundColor="#00897B" barStyle="light-content" />
+        
         <View style={styles.container}>
           <Image
             source={require('./../../assets/img/logo-app-01.png')}
