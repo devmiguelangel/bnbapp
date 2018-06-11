@@ -19,6 +19,7 @@ export default class App extends Component {
     super(props);
     this.state = {
       tag: null,
+      isLoading: true,
     };
 
     this.components = {
@@ -41,21 +42,20 @@ export default class App extends Component {
         tag = 'HomeStack';
       }
 
-      this.setState({ tag });
+      this.setState({ tag, isLoading: false });
     });
   }
 
   render() {
-    const { tag } = this.state;
+    const { tag, isLoading } = this.state;
     const TagName = this.components[tag];
 
     return (
       <Fragment>
+        <Loading visible={isLoading} />
         {
-          tag ? (
+          tag && (
             <TagName />
-          ) : (
-            <Loading visible={true} />
           )
         }
       </Fragment>

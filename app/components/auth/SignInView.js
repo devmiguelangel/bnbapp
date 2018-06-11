@@ -24,12 +24,23 @@ export class SignInView extends Component {
     this.state = {
       email: '',
       password: '',
+      isLoading: false,
     };
   }
   
   static navigationOptions = ({ navigation }) => ({
     header: null,
-  })
+  });
+
+  componentDidMount = () => {
+    /* setTimeout(() => {
+      this.setState({ isLoading: true });
+    }, 3000); */
+  }
+  
+  handleNextField = (field) => {
+    this.refs[field].focus();
+  }
 
   handleSignIn = () => {
     const { email, password } = this.state;
@@ -68,12 +79,15 @@ export class SignInView extends Component {
   }
 
   render() {
+    const { isLoading } = this.state;
+
     return (
       <ImageBackground
         source={require('./../../assets/img/bg-app.png')}
         style={styles.container}
       >
-        <Loading visible={true} />
+        <Loading visible={isLoading} />
+
         <StatusBar backgroundColor="#00897B" barStyle="light-content" />
         
         <View style={styles.container}>
@@ -96,6 +110,8 @@ export class SignInView extends Component {
               autoCorrect={false}
               value={this.state.email}
               onChangeText={(email) => this.setState({ email })}
+              returnKeyType="next"
+              onSubmitEditing={() => this.handleNextField('password')} 
             />
           </View>
           <View style={styles.sigInInputBox}>
@@ -103,6 +119,7 @@ export class SignInView extends Component {
               <Icon name="ios-lock" size={40} color="#CFD8DC" />
             </View>
             <TextInput
+              ref="password"
               style={styles.signInInputField}
               placeholder="Contraseña"
               placeholderTextColor="#FFFFFF"
@@ -112,6 +129,7 @@ export class SignInView extends Component {
               secureTextEntry={true}
               value={this.state.password}
               onChangeText={(password) => this.setState({ password })}
+              onSubmitEditing={this.handleSignIn}
             />
           </View>
 
