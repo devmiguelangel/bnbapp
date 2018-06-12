@@ -31,25 +31,23 @@ export class SignInView extends Component {
   static navigationOptions = ({ navigation }) => ({
     header: null,
   });
-
-  componentDidMount = () => {
-    /* setTimeout(() => {
-      this.setState({ isLoading: true });
-    }, 3000); */
-  }
   
   handleNextField = (field) => {
     this.refs[field].focus();
   }
 
   handleSignIn = () => {
+    this.setState({ isLoading: true });
+    
     const { email, password } = this.state;
 
     auth.signInWithEmailAndPassword(email, password)
       .then(() => {
-        this.props.navigation.navigate('Home');
+        this.setState({ isLoading: false });
       })
       .catch(error => {
+        this.setState({ isLoading: false });
+
         let message = '';
 
         switch(error.code) {
@@ -63,7 +61,7 @@ export class SignInView extends Component {
             message = 'Usuario no encontrado.';
             break;
           case 'auth/wrong-password':
-            message = 'Contraseña incorrecta.';
+            message = 'La contraseña es incorrecta.';
             break;
         }
 
@@ -74,7 +72,7 @@ export class SignInView extends Component {
             { text: 'OK', onPress: () => {} },
           ],
           { cancelable: false }
-        )
+        );
       });
   }
 
@@ -102,16 +100,17 @@ export class SignInView extends Component {
             </View>
             <TextInput
               style={styles.signInInputField}
-              placeholder="Correo Electrónico"
-              placeholderTextColor="#FFFFFF"
               keyboardType="email-address"
               autoCapitalize="none"
-              underlineColorAndroid="transparent"
               autoCorrect={false}
+              placeholder="Correo Electrónico"
+              placeholderTextColor="#FFFFFF"
+              returnKeyType="next"
+              underlineColorAndroid="transparent"
+              selectionColor="#757575"
               value={this.state.email}
               onChangeText={(email) => this.setState({ email })}
-              returnKeyType="next"
-              onSubmitEditing={() => this.handleNextField('password')} 
+              onSubmitEditing={() => this.handleNextField('password')}
             />
           </View>
           <View style={styles.sigInInputBox}>
@@ -121,12 +120,13 @@ export class SignInView extends Component {
             <TextInput
               ref="password"
               style={styles.signInInputField}
-              placeholder="Contraseña"
-              placeholderTextColor="#FFFFFF"
               keyboardType="default"
               autoCapitalize="none"
-              underlineColorAndroid="transparent"
               secureTextEntry={true}
+              placeholder="Contraseña"
+              placeholderTextColor="#FFFFFF"
+              underlineColorAndroid="transparent"
+              selectionColor="#757575"
               value={this.state.password}
               onChangeText={(password) => this.setState({ password })}
               onSubmitEditing={this.handleSignIn}

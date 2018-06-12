@@ -12,6 +12,7 @@ import Loading from './commons/Loading';
 YellowBox.ignoreWarnings([
   'Warning: isMounted',
   'Module RCTImageLoader requires',
+  'Setting a timer',
 ]);
 
 export default class App extends Component {
@@ -29,11 +30,11 @@ export default class App extends Component {
   }
 
   componentDidMount = () => {
-    /* auth.signOut().then(function () {
+    auth.signOut().then(function () {
       // Sign-out successful.
     }).catch(function (error) {
       // An error happened.
-    }); */
+    });
 
     let tag = 'AuthStack';
 
