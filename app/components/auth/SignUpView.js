@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
   Alert,
   ImageBackground,
-  StatusBar,
   StyleSheet,
   Text,
   TextInput,
@@ -17,7 +16,7 @@ import Loading from './../../commons/Loading';
 
 import styles from './../../assets/css/styles';
 
-export class SignUpView extends Component {
+export default class SignUpView extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -125,7 +124,6 @@ export class SignUpView extends Component {
         style={styles.container}
       >
         <Loading visible={isLoading} />
-        <StatusBar backgroundColor="#00897B" barStyle="light-content" />
 
         <View style={css.signUpFormBox}>
           <View style={styles.signUpInputBox}>

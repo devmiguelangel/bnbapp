@@ -6,7 +6,7 @@ import {
 import { auth } from './utils/firebase';
 
 import AuthStack from './containers/auth/AuthStack';
-import HomeStack from './containers/home/HomeStack';
+import AppStack from './containers/AppStack';
 import Loading from './commons/Loading';
 
 YellowBox.ignoreWarnings([
@@ -25,22 +25,22 @@ export default class App extends Component {
 
     this.components = {
       AuthStack,
-      HomeStack,
+      AppStack,
     };
   }
 
   componentDidMount = () => {
-    auth.signOut().then(function () {
+    /* auth.signOut().then(function () {
       // Sign-out successful.
     }).catch(function (error) {
       // An error happened.
-    });
+    }); */
 
     let tag = 'AuthStack';
 
     auth.onAuthStateChanged(user => {
       if (user) {
-        tag = 'HomeStack';
+        tag = 'AppStack';
       }
 
       this.setState({ tag, isLoading: false });

@@ -1,9 +1,10 @@
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 
 /* Fonts */
 const $RobotoRegular = 'Roboto-Regular';
 const $RobotoMedium = 'Roboto-Medium';
 const $RobotoLight = 'Roboto-Light';
+const $MontserratMedium = 'Montserrat-Medium';
 
 export default StyleSheet.create({
   /* Container */
@@ -16,6 +17,28 @@ export default StyleSheet.create({
   logoMain: {
     width: 250,
     height: 136,
+  },
+  logoBox: {
+    alignItems: 'center',
+    height: 'auto',
+    alignSelf: 'stretch',
+    backgroundColor: '#37474F',
+    paddingVertical: 20,
+    ...Platform.select({
+      ios: {
+        paddingTop: 35,
+      }
+    })
+  },
+  logoSecond: {
+    width: 290,
+    height: 70,
+  },
+  /* Icon Home */
+  iconHome: {
+    fontFamily: $MontserratMedium,
+    fontSize: 30,
+    marginHorizontal: 20,
   },
   /* Sign In */
   sigInInputBox: {
@@ -69,5 +92,36 @@ export default StyleSheet.create({
     color: '#FFFFFF',
     fontFamily: $RobotoRegular,
     fontSize: 16,
+  },
+  /* Insurance */
+  insuranceBox: {
+    alignSelf: 'stretch',
+    alignItems: 'center',
+    minHeight: '100%',
+    height: 'auto',
+    paddingVertical: 15,
+    backgroundColor: '#F5FCFF',
+  },
+  insuranceContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    width: '90%',
+    height: 110,
+    marginBottom: 15,
+    backgroundColor: 'rgba(77,182,172, .8)',
+    borderRadius: 5,
+  },
+  insuranceIconBox: {
+    alignSelf: 'stretch',
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    width: '25%',
+  },
+  insuranceLabel: {
+    fontFamily: $RobotoMedium,
+    fontSize: 17,
+    color: 'white',
+    marginLeft: 15,
   },
 });

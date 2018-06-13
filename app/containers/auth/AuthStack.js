@@ -1,20 +1,18 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import {
   Platform,
+  StatusBar,
   View
 } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 
-import { SignInView } from './../../components/auth/SignInView';
-import { SignUpView } from './../../components/auth/SignUpView';
-import HomeStack from './../home/HomeStack';
+import SignInView from './../../components/auth/SignInView';
+import SignUpView from './../../components/auth/SignUpView';
 
 const Stack = createStackNavigator(
   {
     SignIn: SignInView,
     SignUp: SignUpView,
-    Home: HomeStack,
-    // App: DetailsScreen,
   },
   {
     initialRouteName: 'SignIn',
@@ -36,7 +34,11 @@ const Stack = createStackNavigator(
 export default class AuthStack extends Component {
   render() {
     return (
-      <Stack />
+      <Fragment>
+        <StatusBar backgroundColor="#00897B" barStyle="light-content" />
+
+        <Stack />
+      </Fragment>
     )
   }
 }

@@ -3,7 +3,6 @@ import {
   Alert,
   Image,
   ImageBackground,
-  StatusBar,
   StyleSheet,
   Text,
   TextInput,
@@ -18,7 +17,7 @@ import Loading from './../../commons/Loading';
 
 import styles from './../../assets/css/styles';
 
-export class SignInView extends Component {
+export default class SignInView extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -85,8 +84,6 @@ export class SignInView extends Component {
         style={styles.container}
       >
         <Loading visible={isLoading} />
-
-        <StatusBar backgroundColor="#00897B" barStyle="light-content" />
         
         <View style={styles.container}>
           <Image
