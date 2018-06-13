@@ -34,8 +34,9 @@ export default class InsuranceView extends Component {
           showsVerticalScrollIndicator={false}
         >
           <TouchableOpacity
-            style={[styles.insuranceContainer, { backgroundColor: 'rgba(26,188,156, .9)' }]}
+            style={[styles.insuranceContainer, { backgroundColor: 'rgba(76,217,100, 1)' }]}
             activeOpacity={0.7}
+            onPress={() => this.props.navigation.navigate('ProductList')}
           >
             <View style={styles.insuranceIconBox}>
               <Icon name="ios-albums" size={60} color="white" />
@@ -46,7 +47,7 @@ export default class InsuranceView extends Component {
           </TouchableOpacity>
           
           <TouchableOpacity
-            style={[styles.insuranceContainer, { backgroundColor: 'rgba(231,76,60, .9)' }]}
+            style={[styles.insuranceContainer, { backgroundColor: 'rgba(255,59,48, 1)' }]}
             activeOpacity={0.7}
           >
             <View style={styles.insuranceIconBox}>
@@ -58,7 +59,7 @@ export default class InsuranceView extends Component {
           </TouchableOpacity>
           
           <TouchableOpacity
-            style={[styles.insuranceContainer, { backgroundColor: 'rgba(52,152,219, .9)' }]}
+            style={[styles.insuranceContainer, { backgroundColor: 'rgba(90,200,250, 1)' }]}
             activeOpacity={0.7}
           >
             <View style={styles.insuranceIconBox}>
@@ -70,7 +71,7 @@ export default class InsuranceView extends Component {
           </TouchableOpacity>
           
           <TouchableOpacity
-            style={[styles.insuranceContainer, { backgroundColor: 'rgba(39,174,96, .9)' }]}
+            style={[styles.insuranceContainer, { backgroundColor: 'rgba(255,204,0, 1)' }]}
             activeOpacity={0.7}
           >
             <View style={styles.insuranceIconBox}>
@@ -82,7 +83,7 @@ export default class InsuranceView extends Component {
           </TouchableOpacity>
           
           <TouchableOpacity
-            style={[styles.insuranceContainer, { backgroundColor: 'rgba(41,128,185, .9)' }]}
+            style={[styles.insuranceContainer, { backgroundColor: 'rgba(102,102,102, 1)' }]}
             activeOpacity={0.7}
           >
             <View style={styles.insuranceIconBox}>

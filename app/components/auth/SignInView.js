@@ -81,7 +81,7 @@ export default class SignInView extends Component {
     return (
       <ImageBackground
         source={require('./../../assets/img/bg-app.png')}
-        style={styles.container}
+        style={[styles.container, { backgroundColor: 'transparent' }]}
       >
         <Loading visible={isLoading} />
         

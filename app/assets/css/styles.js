@@ -12,6 +12,7 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
+    backgroundColor: '#F5FCFF',
   },
   /* Logo */
   logoMain: {
@@ -123,5 +124,57 @@ export default StyleSheet.create({
     fontSize: 17,
     color: 'white',
     marginLeft: 15,
+  },
+  /* Product List */
+  productListBox: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    width: '95%',
+    height: 120,
+    padding: 10,
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: 'rgba(58,137,137, .2)',
+    borderRadius: 3,
+  },
+  productListIconBox: {
+    width: 55,
+    height: 55,
+    backgroundColor: '#66BB6A',
+    borderRadius: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  productListIconText: {
+    fontFamily: $MontserratMedium,
+    fontSize: 35,
+    color: '#FFFFFF',
+    ...Platform.select({
+      android: {
+        marginTop: -5,
+      }
+    })
+  },
+  productListTitleBox: {
+    flex: 1,
+    paddingHorizontal: 10,
+    paddingTop: 0,
+  },
+  productListTitle: {
+    fontFamily: $RobotoRegular,
+    fontSize: 18,
+    color: '#666666',
+    marginBottom: 10,
+  },
+  productListTitleDescription: {
+    flex: 1,
+    fontFamily: $RobotoLight,
+    fontSize: 12,
+    color: '#8A8A8F',
+    textAlign: 'justify',
+  },
+  productListArrowBow: {
+    alignSelf: 'stretch',
+    justifyContent: 'center',
   },
 });

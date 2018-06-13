@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import {
-  Platform,
   StatusBar,
   Text,
   View
@@ -9,10 +8,15 @@ import { createStackNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import InsuranceView from './../../components/insurance/InsuranceView';
+import ProductListView from './../../components/insurance/ProductListView';
+import IssuanceDeStack from './../issuance/de/IssuanceStack';
 
 const Insurance = createStackNavigator(
   {
     Insurance: InsuranceView,
+    ProductList: ProductListView,
+    /* DE Issuance */
+    IssuanceDe: IssuanceDeStack,
   },
   {
     initialRouteName: Insurance,
