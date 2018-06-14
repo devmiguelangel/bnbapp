@@ -1,9 +1,4 @@
 import React, { Component, Fragment } from 'react';
-import {
-  StatusBar,
-  Text,
-  View
-} from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -34,8 +29,6 @@ export default class HomeContainer extends Component {
   render() {
     return (
       <Fragment>
-        <StatusBar backgroundColor="#00897B" barStyle="light-content" />
-        
         <Insurance navigation={this.props.navigation} />
       </Fragment>
     )

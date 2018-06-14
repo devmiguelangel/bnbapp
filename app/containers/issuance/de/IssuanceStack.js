@@ -4,8 +4,9 @@ import {
   Text,
   View
 } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 
-import styles from './../../../assets/css/styles';
+import styles, { $ColorDanger } from './../../../assets/css/styles';
 
 export default class IssuanceStack extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -13,12 +14,18 @@ export default class IssuanceStack extends Component {
     headerTitleStyle: {
       fontWeight: 'normal',
     },
-    ...Platform.select({
-      android: {
-        headerBackImage: (<Text>Atras</Text>)
-      }
-    })
+    headerBackImage: ({ tintColor }) => {
+      return Platform.select({
+        ios: (<Text style={{ color: $ColorDanger, fontSize: 16, paddingLeft: 15 }}>Cancelar</Text>),
+        android: (<Icon name="md-close-circle" size={35} color={$ColorDanger} style={{ paddingLeft: 15 }} />)
+      })
+    },
   });
+
+  componentWillUnmount = () => {
+    
+  }
+  
 
   render() {
     return (

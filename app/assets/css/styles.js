@@ -1,20 +1,37 @@
 import { Platform, StyleSheet } from 'react-native';
 
 /* Fonts */
-const $RobotoRegular = 'Roboto-Regular';
-const $RobotoMedium = 'Roboto-Medium';
-const $RobotoLight = 'Roboto-Light';
-const $MontserratMedium = 'Montserrat-Medium';
+export const $RobotoRegular = 'Roboto-Regular';
+export const $RobotoMedium = 'Roboto-Medium';
+export const $RobotoLight = 'Roboto-Light';
+export const $MontserratMedium = 'Montserrat-Medium';
+
+/* Colors */
+export const $ColorBg = '#F5FCFF';
+export const $ColorStatusBar01 = '#00897B';
+export const $ColorStatusBar02 = '#102027';
+export const $ColorLinkPrimary = '#EFEBE9';
+
+export const $ColorPrimary = '#007AFF';
+export const $ColorSecondary = '#666666';
+export const $ColorSecondary02 = '#607D8B';
+export const $ColorSuccess = '#4CD964';
+export const $ColorInfo = '#5AC8FA';
+export const $ColorWarning = '#FF9500';
+export const $ColorLight = '#FFCC00';
+export const $ColorDanger = '#FF3B30';
 
 export default StyleSheet.create({
   /* Container */
   container: {
     flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: $ColorBg,
   },
   /* Logo */
+  authContainer: {
+    flex: 1,
+    alignItems: 'center'
+  },
   logoMain: {
     width: 250,
     height: 136,
@@ -42,6 +59,11 @@ export default StyleSheet.create({
     marginHorizontal: 20,
   },
   /* Sign In */
+  signInFormBox: {
+    flex: 1,
+    alignSelf: 'stretch',
+    alignItems: 'center',
+  },
   sigInInputBox: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -63,17 +85,17 @@ export default StyleSheet.create({
     fontFamily: $RobotoRegular,
     fontSize: 16,
   },
-  btnOne: {
+  btnLarge: {
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'stretch',
     height: 55,
     backgroundColor: '#ECEFF1',
   },
-  btnOneText: {
+  btnLargeText: {
     fontFamily: $RobotoLight,
     fontSize: 22,
-    color: '#607D8B',
+    color: $ColorSecondary02,
   },
   /* Sign Up */
   signUpInputBox: {
@@ -101,7 +123,7 @@ export default StyleSheet.create({
     minHeight: '100%',
     height: 'auto',
     paddingVertical: 15,
-    backgroundColor: '#F5FCFF',
+    backgroundColor: $ColorBg,
   },
   insuranceContainer: {
     flexDirection: 'row',
@@ -110,7 +132,7 @@ export default StyleSheet.create({
     width: '90%',
     height: 110,
     marginBottom: 15,
-    backgroundColor: 'rgba(77,182,172, .8)',
+    backgroundColor: 'white',
     borderRadius: 5,
   },
   insuranceIconBox: {

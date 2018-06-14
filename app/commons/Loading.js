@@ -40,5 +40,7 @@ const css = StyleSheet.create({
     height: 90,
     backgroundColor: '#FFFFFF',
     borderRadius: 15,
+    borderWidth: .8,
+    borderColor: '#ECEFF1',
   },
 });

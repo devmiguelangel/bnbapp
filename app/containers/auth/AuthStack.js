@@ -9,6 +9,8 @@ import { createStackNavigator } from 'react-navigation';
 import SignInView from './../../components/auth/SignInView';
 import SignUpView from './../../components/auth/SignUpView';
 
+import { $ColorStatusBar01 } from './../../assets/css/styles';
+
 const Stack = createStackNavigator(
   {
     SignIn: SignInView,
@@ -35,7 +37,7 @@ export default class AuthStack extends Component {
   render() {
     return (
       <Fragment>
-        <StatusBar backgroundColor="#00897B" barStyle="light-content" />
+        <StatusBar backgroundColor={$ColorStatusBar01} barStyle="light-content" />
 
         <Stack />
       </Fragment>

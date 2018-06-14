@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import styles from './../../assets/css/styles';
+import styles, { $ColorSecondary02 } from './../../assets/css/styles';
 
 export default class ProductListView extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -17,7 +17,7 @@ export default class ProductListView extends Component {
     headerTitleStyle: {
       fontWeight: 'normal',
     },
-    headerBackTitle: 'Cancelar',
+    headerBackTitle: null,
   });
 
   render() {
@@ -48,7 +48,7 @@ export default class ProductListView extends Component {
               </Text>
             </View>
             <View style={styles.productListArrowBow}>
-              <Icon name="ios-arrow-forward" size={35} color="#607D8B" />
+              <Icon name="ios-arrow-forward" size={35} color={$ColorSecondary02} />
             </View>
           </TouchableOpacity>
         </ScrollView>

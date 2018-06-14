@@ -15,7 +15,7 @@ import { auth } from './../../utils/firebase';
 
 import Loading from './../../commons/Loading';
 
-import styles from './../../assets/css/styles';
+import styles, { $RobotoRegular, $RobotoMedium, $ColorLinkPrimary } from './../../assets/css/styles';
 
 export default class SignInView extends Component {
   constructor(props) {
@@ -81,16 +81,16 @@ export default class SignInView extends Component {
     return (
       <ImageBackground
         source={require('./../../assets/img/bg-app.png')}
-        style={[styles.container, { backgroundColor: 'transparent' }]}
+        style={styles.authContainer}
       >
         <Loading visible={isLoading} />
-        
-        <View style={styles.container}>
-          <Image
-            source={require('./../../assets/img/logo-app-01.png')}
-            style={[styles.logoMain, css.logoMain]}
-          />
 
+        <Image
+          source={require('./../../assets/img/logo-app-01.png')}
+          style={[styles.logoMain, css.logoMain]}
+        />
+        
+        <View style={styles.signInFormBox}>
           <View style={[styles.sigInInputBox, { marginTop: 75 }]}>
             <View style={styles.sigInInputIcon}>
               <Icon name="md-contact" size={40} color="#CFD8DC" />
@@ -147,11 +147,11 @@ export default class SignInView extends Component {
         </View>
 
         <TouchableOpacity
-          style={styles.btnOne}
+          style={styles.btnLarge}
           activeOpacity={0.8}
           onPress={this.handleSignIn}
         >
-          <Text style={styles.btnOneText}>Iniciar Sesión</Text>
+          <Text style={styles.btnLargeText}>Iniciar Sesión</Text>
         </TouchableOpacity>
       </ImageBackground>
     )
@@ -166,9 +166,9 @@ const css = StyleSheet.create({
     marginTop: 20,
   },
   passwordForgotText: {
-    fontFamily: 'Roboto-Medium',
+    fontFamily: $RobotoMedium,
     fontSize: 14,
-    color: '#EFEBE9',
+    color: $ColorLinkPrimary,
   },
   newAccountBtn: {
     justifyContent: 'center',
@@ -177,12 +177,12 @@ const css = StyleSheet.create({
     height: 35,
     marginTop: 30,
     borderWidth: 1.5,
-    borderColor: '#FFFFFF',
+    borderColor: 'white',
     borderRadius: 8,
   },
   newAccountText: {
-    fontFamily: 'Roboto-Regular',
+    fontFamily: $RobotoRegular,
     fontSize: 14,
-    color: '#FFFFFF',
+    color: 'white',
   },
 });
