@@ -4,14 +4,14 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import InsuranceView from './../../components/insurance/InsuranceView';
 import ProductListView from './../../components/insurance/ProductListView';
-import IssuanceDeStack from './../issuance/de/IssuanceStack';
+import IssuanceDataView from './../../components/issuance/de/IssuanceDataView';
 
 const Insurance = createStackNavigator(
   {
     Insurance: InsuranceView,
     ProductList: ProductListView,
     /* DE Issuance */
-    IssuanceDe: IssuanceDeStack,
+    DeIssuanceData: IssuanceDataView,
   },
   {
     initialRouteName: Insurance,

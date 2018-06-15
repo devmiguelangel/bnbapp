@@ -121,7 +121,7 @@ export default class SignUpView extends Component {
     return (
       <ImageBackground
         source={require('./../../assets/img/bg-app.png')}
-        style={styles.container}
+        style={styles.authContainer}
       >
         <Loading visible={isLoading} />
 

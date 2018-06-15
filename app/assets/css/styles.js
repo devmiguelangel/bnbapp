@@ -199,4 +199,27 @@ export default StyleSheet.create({
     alignSelf: 'stretch',
     justifyContent: 'center',
   },
+  /* Issuance */
+  issuanceBox: {
+    flexDirection: 'row',
+    height: 50,
+    marginTop: 10,
+    backgroundColor: 'rgba(255,255,255, .7)',
+    borderBottomWidth: 1,
+    borderBottomColor: '#CFD8DC',
+  },
+  issuanceInputBox: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingHorizontal: 10,
+  },
+  issuanceInput: {
+    fontFamily: $RobotoRegular,
+    fontSize: 18,
+    color: '#37474F',
+  },
+  issuanceIconBox: {
+    paddingHorizontal: 10,
+    justifyContent: 'center',
+  },
 });

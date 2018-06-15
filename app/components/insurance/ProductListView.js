@@ -33,7 +33,7 @@ export default class ProductListView extends Component {
           <TouchableOpacity
             style={styles.productListBox}
             activeOpacity={.6}
-            onPress={() => this.props.navigation.navigate('IssuanceDe')}
+            onPress={() => this.props.navigation.navigate('DeIssuanceData')}
           >
             <View style={styles.productListIconBox}>
               <Text style={styles.productListIconText}>D</Text>
