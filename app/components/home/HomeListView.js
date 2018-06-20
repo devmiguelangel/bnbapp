@@ -18,7 +18,7 @@ import styles, {
   $ColorLight,
 } from './../../assets/css/styles';
 
-export default class InsuranceView extends Component {
+export default class HomeListView extends Component {
   static navigationOptions = ({ navigation }) => ({
     header: null,
   });

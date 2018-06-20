@@ -1,28 +1,36 @@
-import React, { Component } from 'react';
-import {
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import React, { Component, Fragment } from 'react';
+import { createStackNavigator } from 'react-navigation';
+import Icon from 'react-native-vector-icons/Ionicons';
 
-import styles from './../../assets/css/styles';
+import HomeListView from './../../components/home/HomeListView';
+import ProductListView from './../../components/home/ProductListView';
+import DataView from './../../components/issuance/de/DataView';
 
-export default class HomeStack extends Component {
+const Insurance = createStackNavigator(
+  {
+    HomeList: HomeListView,
+    ProductList: ProductListView,
+    /* DE Issuance */
+    DataDe: DataView,
+  },
+  {
+    initialRouteName: 'HomeList',
+  }
+);
+
+export default class HomeContainer extends Component {
+  static router = Insurance.router;
+
   static navigationOptions = ({ navigation }) => ({
-    tabBarLabel: 'Seguros',
-    tabBarIcon: ({ tintColor }) => (<Text style={[styles.iconHome, { color: tintColor }]}>B</Text>),
+    tabBarLabel: 'Inicio',
+    tabBarIcon: ({ tintColor }) => (<Icon name="md-home" size={25} color={tintColor} />),
   });
 
   render() {
     return (
-      <View>
-        <Text> HomeStack </Text>
-        <Text> HomeStack </Text>
-        <Text> HomeStack </Text>
-        <Text> HomeStack </Text>
-        <Text> HomeStack </Text>
-        <Text> HomeStack </Text>
-      </View>
+      <Fragment>
+        <Insurance navigation={this.props.navigation} />
+      </Fragment>
     )
   }
 }

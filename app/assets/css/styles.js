@@ -20,6 +20,7 @@ export const $ColorInfo = '#5AC8FA';
 export const $ColorWarning = '#FF9500';
 export const $ColorLight = '#FFCC00';
 export const $ColorDanger = '#FF3B30';
+export const $ColorFormText = '#37474F';
 
 export default StyleSheet.create({
   /* Container */
@@ -85,6 +86,7 @@ export default StyleSheet.create({
     fontFamily: $RobotoRegular,
     fontSize: 16,
   },
+  /* Buttons */
   btnLarge: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -96,6 +98,18 @@ export default StyleSheet.create({
     fontFamily: $RobotoLight,
     fontSize: 22,
     color: $ColorSecondary02,
+  },
+  btnSuccessLarge: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'stretch',
+    height: 55,
+    backgroundColor: $ColorSuccess,
+  },
+  btnSuccessLargeText: {
+    fontFamily: $RobotoLight,
+    fontSize: 22,
+    color: 'white',
   },
   /* Sign Up */
   signUpInputBox: {
@@ -200,26 +214,36 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   /* Issuance */
-  issuanceBox: {
+  formGroup: {
     flexDirection: 'row',
-    height: 50,
-    marginTop: 10,
-    backgroundColor: 'rgba(255,255,255, .7)',
-    borderBottomWidth: 1,
-    borderBottomColor: '#CFD8DC',
+    // justifyContent: 'space-between',
+    height: 45,
+    marginBottom: 7,
   },
-  issuanceInputBox: {
+  formBox: {
     flex: 1,
-    justifyContent: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginHorizontal: 5,
     paddingHorizontal: 10,
+    backgroundColor: 'white',
+    borderWidth: 1,
+    borderColor: 'rgba(58,137,137, .2)',
+    borderRadius: 5,
   },
-  issuanceInput: {
+  formInput: {
+    flex: 1,
     fontFamily: $RobotoRegular,
-    fontSize: 18,
-    color: '#37474F',
+    fontSize: 17,
+    color: $ColorFormText,
   },
-  issuanceIconBox: {
-    paddingHorizontal: 10,
-    justifyContent: 'center',
+  formIcon: {
+    marginLeft: 10,
+  },
+  formPicker: {
+    flex: 1,
+    margin: 0,
+    padding: 0
   },
 });

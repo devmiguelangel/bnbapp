@@ -4,17 +4,17 @@ import {
 } from 'react-native';
 import { createBottomTabNavigator } from 'react-navigation';
 
-import InsuranceStack from './insurance/InsuranceStack';
-import ReportStack from './reports/ReportStack';
 import HomeStack from './home/HomeStack';
+import ReportStack from './reports/ReportStack';
+import InsuranceStack from './insurance/InsuranceStack';
 import NotificationStack from './notifications/NotificationStack';
 import UserStack from './user/UserStack';
 
 export default createBottomTabNavigator(
   {
-    Insurance: { screen: InsuranceStack },
-    Reports: { screen: ReportStack },
     Home: { screen: HomeStack },
+    Reports: { screen: ReportStack },
+    Insurance: { screen: InsuranceStack },
     Notifications: { screen: NotificationStack },
     Settings: { screen: UserStack },
   },
