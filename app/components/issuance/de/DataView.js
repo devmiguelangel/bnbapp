@@ -7,10 +7,13 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 import numeral from 'numeral';
 
+import * as actions from './../../../actions/home';
 import { auth, db } from './../../../utils/firebase';
 
 import PickerView from './../../../commons/PickerView';
@@ -18,7 +21,7 @@ import LoadingOne from './../../../commons/Loading';
 
 import styles, { $ColorDanger, $ColorFormText } from './../../../assets/css/styles';
 
-export default class DataView extends Component {
+class DataView extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -50,12 +53,6 @@ export default class DataView extends Component {
       fontWeight: 'normal',
       textAlign: 'left'
     },
-    headerBackImage: ({ tintColor }) => (
-      Platform.select({
-        ios: (<Text style={{ color: $ColorDanger, fontSize: 16, paddingLeft: 15 }}>Cancelar</Text>),
-        android: (<Icon name="md-close-circle" size={35} color={$ColorDanger} style={{ paddingLeft: 15 }} />)
-      })
-    ),
   });
 
   componentDidMount = () => {
@@ -156,7 +153,10 @@ export default class DataView extends Component {
     })
     .then(docRef => {
       this.handleLoading(false);
-      console.log(docRef);
+
+      this.props.actions.setHeaderRef(docRef.id);
+
+      this.props.navigation.navigate('Detail');
     })
     .catch(error => {
       this.handleLoading(false);
@@ -337,3 +337,17 @@ export default class DataView extends Component {
     )
   }
 }
+
+const mapStateToProps = (state, props) => {
+  return {
+    headerRef: state.issuance.headerRef,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    actions: bindActionCreators(actions, dispatch),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DataView);

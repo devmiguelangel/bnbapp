@@ -7,7 +7,7 @@ export const $RobotoLight = 'Roboto-Light';
 export const $MontserratMedium = 'Montserrat-Medium';
 
 /* Colors */
-export const $ColorBg = '#F5FCFF';
+export const $ColorBg = '#FFFFFF';
 export const $ColorStatusBar01 = '#00897B';
 export const $ColorStatusBar02 = '#102027';
 export const $ColorLinkPrimary = '#EFEBE9';

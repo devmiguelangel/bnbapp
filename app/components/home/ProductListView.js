@@ -23,7 +23,7 @@ export default class ProductListView extends Component {
   render() {
     return (
       <View style={{ flex: 1, justifyContent: 'flex-start', }}>
-        <StatusBar backgroundColor="transparent" barStyle="dark-content" />
+        <StatusBar backgroundColor="rgba(198,201,202, .5)" barStyle="dark-content" />
         
         <ScrollView
           contentContainerStyle={styles.insuranceBox}

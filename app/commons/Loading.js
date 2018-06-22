@@ -40,7 +40,7 @@ const css = StyleSheet.create({
     height: 90,
     backgroundColor: '#FFFFFF',
     borderRadius: 15,
-    borderWidth: .8,
-    borderColor: '#ECEFF1',
+    borderWidth: 1,
+    borderColor: 'rgba(55,71,79, .3)',
   },
 });
