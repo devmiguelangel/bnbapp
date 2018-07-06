@@ -102,7 +102,7 @@ class DataView extends Component {
         ...prevState.data,
         [name]: value,
       }
-    }))
+    }));
   }
 
   handleLoading = (value) => {
@@ -129,13 +129,15 @@ class DataView extends Component {
   }
 
   handleStore = () => {
-    this.handleLoading(true);
+    // this.handleLoading(true);
 
     const { coverage, amountRequested, currency, term, termType, creditProduct } = this.state.data;
     const user = auth.currentUser;
     const date = moment();
+    
+    this.props.navigation.navigate('Detail');
 
-    db.collection('deHeaders').add({
+    /* db.collection('deHeaders').add({
       userRef: user.uid,
       type: 'Q',
       issueNumber: 0,
@@ -160,8 +162,7 @@ class DataView extends Component {
     })
     .catch(error => {
       this.handleLoading(false);
-      // console.warn("Error adding document: ", error);
-    });
+    }); */
   }
 
   render() {

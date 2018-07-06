@@ -1,7 +1,7 @@
 import { Issuance } from './../types';
 
 const initialState = {
-  headerRef: 'test2'
+  headerRef: null,
 };
 
 const issuanceReducer = (state = initialState, action) => {

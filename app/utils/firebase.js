@@ -2,12 +2,12 @@ import * as firebase from 'firebase';
 import 'firebase/firestore';
 
 const config = {
-  apiKey: "AIzaSyA7VeQyxncKMnY_b-KTrzMInlI3VFhjLqQ",
-  authDomain: "bnb-seguros.firebaseapp.com",
-  databaseURL: "https://bnb-seguros.firebaseio.com",
-  projectId: "bnb-seguros",
+  apiKey: "AIzaSyAyl_x4qirQMnZKplWCD374_q27j8-BGxI",
+  authDomain: "bnb-seguros-prod.firebaseapp.com",
+  databaseURL: "https://bnb-seguros-prod.firebaseio.com",
+  projectId: "bnb-seguros-prod",
   storageBucket: "",
-  messagingSenderId: "2658697375"
+  messagingSenderId: "525382114250",
 };
 
 const settings = {

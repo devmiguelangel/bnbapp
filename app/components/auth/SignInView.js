@@ -45,8 +45,6 @@ export default class SignInView extends Component {
         this.setState({ isLoading: false });
       })
       .catch(error => {
-        this.setState({ isLoading: false });
-
         let message = '';
 
         switch(error.code) {
@@ -68,7 +66,7 @@ export default class SignInView extends Component {
           'BNB Seguros',
           message,
           [
-            { text: 'OK', onPress: () => {} },
+            { text: 'OK', onPress: () => this.setState({ isLoading: false }) },
           ],
           { cancelable: false }
         );
@@ -76,14 +74,14 @@ export default class SignInView extends Component {
   }
 
   render() {
-    const { isLoading } = this.state;
+    // const { isLoading } = this.state;
 
     return (
       <ImageBackground
         source={require('./../../assets/img/bg-app.png')}
         style={styles.authContainer}
       >
-        <Loading visible={isLoading} />
+        <Loading visible={this.state.isLoading} />
 
         <Image
           source={require('./../../assets/img/logo-app-01.png')}

@@ -246,4 +246,39 @@ export default StyleSheet.create({
     margin: 0,
     padding: 0
   },
+  /* Detail */
+  detailBox: {
+    flexDirection: 'row',
+    alignSelf: 'stretch',
+    alignItems: 'center',
+    height: 70,
+    borderBottomWidth: 1,
+    borderBottomColor: '#CFD8DC',
+  },
+  headlineBox: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 35,
+    height: 35,
+    marginHorizontal: 15,
+    backgroundColor: '#007AFF',
+    borderRadius: 50,
+  },
+  headlineText: {
+    fontFamily: $RobotoRegular,
+    fontSize: 20,
+    color: 'white',
+  },
+  detailDataBox: {
+    flex: 1,
+    paddingVertical: 10,
+  },
+  detailDataText01: {
+    fontFamily: $RobotoMedium,
+    fontSize: 14,
+  },
+  detailDataText02: {
+    fontFamily: $RobotoLight,
+    fontSize: 12,
+  },
 });
