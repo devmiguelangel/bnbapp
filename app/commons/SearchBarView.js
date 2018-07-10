@@ -39,6 +39,7 @@ export default class SearchBarView extends Component {
               underlineColorAndroid="transparent"
               value={search}
               onChangeText={(value) => this.handleInputChange('search', value)}
+              onSubmitEditing={() => this.props.search(search)}
             />
           </View>
           <TouchableOpacity

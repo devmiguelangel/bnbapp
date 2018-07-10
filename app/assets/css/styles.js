@@ -236,6 +236,9 @@ export default StyleSheet.create({
     borderColor: 'rgba(58,137,137, .2)',
     borderRadius: 5,
   },
+  formBoxArea: {
+    height: 80
+  },
   formInput: {
     flex: 1,
     fontFamily: $RobotoRegular,

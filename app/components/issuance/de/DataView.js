@@ -53,6 +53,7 @@ class DataView extends Component {
       fontWeight: 'normal',
       textAlign: 'left'
     },
+    headerBackTitle: null,
   });
 
   componentDidMount = () => {
@@ -135,7 +136,7 @@ class DataView extends Component {
     const user = auth.currentUser;
     const date = moment();
     
-    this.props.navigation.navigate('Detail');
+    this.props.navigation.navigate('deDetail');
 
     /* db.collection('deHeaders').add({
       userRef: user.uid,
@@ -158,7 +159,7 @@ class DataView extends Component {
 
       this.props.actions.setHeaderRef(docRef.id);
 
-      this.props.navigation.navigate('Detail');
+      this.props.navigation.navigate('deDetail');
     })
     .catch(error => {
       this.handleLoading(false);

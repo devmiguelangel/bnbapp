@@ -22,7 +22,7 @@ export default class ProductListView extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1, justifyContent: 'flex-start', }}>
+      <View style={{ flex: 1, justifyContent: 'flex-start', backgroundColor: 'white', }}>
         <StatusBar backgroundColor="rgba(198,201,202, .5)" barStyle="dark-content" />
         
         <ScrollView
@@ -33,7 +33,7 @@ export default class ProductListView extends Component {
           <TouchableOpacity
             style={styles.productListBox}
             activeOpacity={.6}
-            onPress={() => this.props.navigation.navigate('DataDe')}
+            onPress={() => this.props.navigation.navigate('deData')}
           >
             <View style={styles.productListIconBox}>
               <Text style={styles.productListIconText}>D</Text>

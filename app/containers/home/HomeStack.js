@@ -10,14 +10,16 @@ import HomeListView from './../../components/home/HomeListView';
 import ProductListView from './../../components/home/ProductListView';
 import DataView from './../../components/issuance/de/DataView';
 import DetailView from './../../components/issuance/de/DetailView';
+import ClientView from './../../components/issuance/de/ClientView';
 
 const Insurance = createStackNavigator(
   {
     HomeList: HomeListView,
     ProductList: ProductListView,
     /* DE Issuance */
-    DataDe: DataView,
-    Detail: DetailView,
+    deData: DataView,
+    deDetail: DetailView,
+    deClient: ClientView,
   },
   {
     initialRouteName: 'HomeList',

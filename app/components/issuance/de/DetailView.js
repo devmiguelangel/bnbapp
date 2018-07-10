@@ -22,9 +22,19 @@ class DetailView extends Component {
     };
   }
 
+  static navigationOptions = ({ navigation }) => ({
+    headerTitle: 'Detalle',
+    headerTitleStyle: {
+      fontWeight: 'normal',
+      textAlign: 'left'
+    },
+    headerBackTitle: null,
+  });
+
   componentDidMount = () => {
     const { headerRef } = this.props;
-
+    console.warn(headerRef);
+    
     if (headerRef) {
       const details = [];
 
@@ -43,7 +53,7 @@ class DetailView extends Component {
           console.log("Error getting documents: ", error);
         });
     } else {
-      this.props.navigation.navigate('DataDe');
+      // this.props.navigation.navigate('deData');
     }
   }
 
@@ -76,12 +86,18 @@ class DetailView extends Component {
     )
   }
 
+  search = (value) => {
+    this.props.navigation.navigate('deClient');
+  }
+
   render() {
     const { enable } = this.state;
 
     return (
       <View style={styles.container}>
-        <SearchBarView />
+        <SearchBarView
+          search={this.search}
+        />
 
         <FlatList
           data={[{key: 'a'}, {key: 'b'}]}
