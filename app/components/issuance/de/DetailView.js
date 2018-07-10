@@ -8,34 +8,86 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import * as actions from './../../../actions/home';
+import { db } from './../../../utils/firebase';
 import SearchBarView from './../../../commons/SearchBarView';
+import DetailItemView from './DetailItemView';
 import styles from './../../../assets/css/styles';
 
 class DetailView extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      enable: true,
+      details: [],
+    };
+  }
+
+  componentDidMount = () => {
+    const { headerRef } = this.props;
+
+    if (headerRef) {
+      const details = [];
+
+      db.collection('deDetails')
+        .where('headerRef', '==', headerRef)
+        .get()
+        .then(querySnapshot => {
+          querySnapshot.forEach(doc => {
+            console.log(doc.id, " => ", doc.data());
+            details.push(doc.data());
+          });
+
+          this.setState({ details });
+        })
+        .catch(error => {
+          console.log("Error getting documents: ", error);
+        });
+    } else {
+      this.props.navigation.navigate('DataDe');
+    }
+  }
+
+  success = (key) => {
+    // console.warn(key);
+    
+    /* const data = this.state.data.filter(item => item.key !== key);
+    this.setState({
+      data,
+    }); */
+  }
+
+  setScrollEnabled = (enable) => {
+    this.setState({ enable });
+  }
+
+  renderSeparator = () => {
+    return (
+      <View style={styles.separator}></View>
+    )
+  }
+
   renderItem = (item) => {
     return (
-      <View style={styles.detailBox}>
-        <View style={styles.headlineBox}>
-          <Text style={styles.headlineText}>T</Text>
-        </View>
-        <View style={styles.detailDataBox}>
-          <Text style={styles.detailDataText01}>Miguel Angel Mamani Gutierrez</Text>
-          <Text style={styles.detailDataText02}>6814906 LP</Text>
-          <Text style={styles.detailDataText02}>03/09/1988</Text>
-        </View>
-      </View>
+      <DetailItemView
+        item={item}
+        success={this.success}
+        setScrollEnabled={this.setScrollEnabled}
+      />
     )
   }
 
   render() {
+    const { enable } = this.state;
+
     return (
       <View style={styles.container}>
         <SearchBarView />
 
         <FlatList
           data={[{key: 'a'}, {key: 'b'}]}
+          ItemSeparatorComponent={this.renderSeparator}
           renderItem={({item}) => this.renderItem(item)}
-          scrollEnabled={true}
+          scrollEnabled={enable}
         />
         
         <Text> {typeof this.props.headerRef} </Text>
