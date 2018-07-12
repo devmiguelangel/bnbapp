@@ -17,7 +17,7 @@ import * as actions from './../../../actions/home';
 import { auth, db } from './../../../utils/firebase';
 
 import PickerView from './../../../commons/PickerView';
-import LoadingOne from './../../../commons/Loading';
+import LoadingView from './../../../commons/Loading';
 
 import styles, { $ColorDanger, $ColorFormText } from './../../../assets/css/styles';
 
@@ -171,7 +171,7 @@ class DataView extends Component {
 
     return (
       <Fragment>
-        <LoadingOne visible={isLoading} />
+        <LoadingView visible={isLoading} />
 
         <View style={[styles.container, { paddingTop: 10 }]}>
           {

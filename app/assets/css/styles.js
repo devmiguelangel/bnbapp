@@ -259,4 +259,26 @@ export default StyleSheet.create({
     height: 1,
     backgroundColor: '#CFD8DC',
   },
+  /* Questions */
+  questionBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'stretch',
+    height: 'auto',
+    marginHorizontal: 8,
+    marginBottom: 3,
+    paddingHorizontal: 10,
+    paddingVertical: 7,
+  },
+  questionNumber: {
+    fontFamily: $RobotoMedium,
+    fontSize: 18,
+    marginRight: 6,
+  },
+  questionText: {
+    flex: 1,
+    fontFamily: $RobotoLight,
+    fontSize: 14,
+    marginRight: 6,
+  },
 });

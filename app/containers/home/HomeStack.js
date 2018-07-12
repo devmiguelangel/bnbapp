@@ -11,6 +11,7 @@ import ProductListView from './../../components/home/ProductListView';
 import DataView from './../../components/issuance/de/DataView';
 import DetailView from './../../components/issuance/de/DetailView';
 import ClientView from './../../components/issuance/de/ClientView';
+import QuestionView from './../../components/issuance/de/QuestionView';
 
 const Insurance = createStackNavigator(
   {
@@ -20,6 +21,7 @@ const Insurance = createStackNavigator(
     deData: DataView,
     deDetail: DetailView,
     deClient: ClientView,
+    deQuestion: QuestionView,
   },
   {
     initialRouteName: 'HomeList',
