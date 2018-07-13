@@ -83,9 +83,9 @@ export default class DetailItemView extends PureComponent {
               <Text style={styles.headlineText}>T</Text>
             </View>
             <View style={styles.detailDataBox}>
-              <Text style={styles.detailDataText01}>Miguel Angel Mamani Gutierrez - {item.key}</Text>
-              <Text style={styles.detailDataText02}>6814906 LP</Text>
-              <Text style={styles.detailDataText02}>03/09/1988</Text>
+              <Text style={styles.detailDataText01}>{`${item.client.firstName} ${item.client.lastName} ${item.client.motherLastName}`}</Text>
+              <Text style={styles.detailDataText02}>{`${item.client.dni}`} ${item.client.extension}</Text>
+              <Text style={styles.detailDataText02}>{`${item.client.birthdate}`}</Text>
             </View>
           </View>
           <View style={styles.actionCell}>

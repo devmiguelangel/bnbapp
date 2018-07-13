@@ -84,10 +84,6 @@ export default class ClientView extends Component {
     ];
   }
 
-  handleLoading = (value) => {
-    this.setState({ isLoading: value });
-  }
-
   handleInputChange = (name, value) => {
     this.setState(prevState => ({
       data: {
@@ -212,7 +208,9 @@ export default class ClientView extends Component {
         updatedAt: date.clone().toDate(),
       })
       .then(docRef => {
-        this.props.navigation.navigate('deQuestion');
+        this.props.navigation.navigate('deQuestion', {
+          detailId: docRef.id,
+        });
       })
       .catch(error => {
         throw Error('Error adding document');
@@ -220,11 +218,11 @@ export default class ClientView extends Component {
   }
 
   handleStore = () => {
-    this.handleLoading(true);
+    this.setState({ isLoading: true });
 
     this.clientStore()
       .then(clientRef => {
-        this.handleLoading(false);
+        this.setState({ isLoading: false });
 
         this.detailStore(clientRef);
       })
@@ -233,7 +231,7 @@ export default class ClientView extends Component {
           'BNB Seguros',
           error.message,
           [
-            { text: 'OK', onPress: () => this.setState({ isLoading: false })},
+            { text: 'OK', onPress: () => this.setState({ isLoading: false }) },
           ],
           { cancelable: false }
         );

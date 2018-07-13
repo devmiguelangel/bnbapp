@@ -1,11 +1,15 @@
 import React, { Component, Fragment } from 'react';
 import {
+  Alert,
   Switch,
   Text,
   TouchableOpacity,
   View
 } from 'react-native';
+import moment from 'moment';
 
+import { db } from './../../../utils/firebase';
+import LoadingView from './../../../commons/Loading';
 import styles from './../../../assets/css/styles';
 
 export default class QuestionView extends Component {
@@ -13,6 +17,7 @@ export default class QuestionView extends Component {
     super(props);
     this.state = {
       questions: [],
+      isLoading: false,
     };
   }
 
@@ -29,24 +34,28 @@ export default class QuestionView extends Component {
       {
         id: 1,
         order: 1,
-        response: true,
+        expected: true,
+        response: false,
         question: '¿Se encuentra usted actualmente sano?',
       },
       {
         id: 2,
         order: 2,
+        expected: false,
         response: false,
         question: '¿Tiene alguna enfermedad diagnosticada?. ¿Cuál?',
       },
       {
         id: 3,
         order: 3,
+        expected: false,
         response: false,
         question: '¿Tiene SIDA o es portador de HIV?',
       },
       {
         id: 4,
         order: 4,
+        expected: false,
         response: false,
         question: '¿Practica algún deporte a nivel profesional o considerado de alto riesgo? (Alpinismo, automovilismo, etc.)',
       },
@@ -69,11 +78,41 @@ export default class QuestionView extends Component {
     this.setState({ questions });
   }
 
-  render() {
+  handleStore = () => {
+    this.setState({ isLoading: true });
+
     const { questions } = this.state;
+    const { navigation } = this.props;
+    const detailId = navigation.getParam('detailId');
+    const data = moment();
+
+    db.collection('deDetails').doc(detailId)
+      .update({
+        responses: questions,
+      })
+      .then(() => {
+        this.setState({ isLoading: false });
+        navigation.navigate('deDetail');
+      })
+      .catch(error => {
+        Alert.alert(
+          'BNB Seguros',
+          'Error updating document',
+          [
+            { text: 'OK', onPress: () => this.setState({ isLoading: false }) },
+          ],
+          { cancelable: false }
+        );
+      });
+  }
+
+  render() {
+    const { questions, isLoading } = this.state;
 
     return (
       <Fragment>
+        <LoadingView visible={isLoading} />
+
         <View style={[styles.container, { paddingTop: 10 }]}>
           {
             questions.map((question, index) => 

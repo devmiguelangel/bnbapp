@@ -32,28 +32,32 @@ class DetailView extends Component {
   });
 
   componentDidMount = () => {
-    const { headerRef } = this.props;
-    console.warn(headerRef);
+    console.warn('mount');
     
+    this.getDetails();  
+  }
+
+  getDetails = async () => {
+    const { headerRef } = this.props;
+
     if (headerRef) {
-      const details = [];
-
-      db.collection('deDetails')
-        .where('headerRef', '==', headerRef)
-        .get()
-        .then(querySnapshot => {
-          querySnapshot.forEach(doc => {
-            console.log(doc.id, " => ", doc.data());
-            details.push(doc.data());
-          });
-
-          this.setState({ details });
-        })
-        .catch(error => {
-          console.log("Error getting documents: ", error);
-        });
-    } else {
-      // this.props.navigation.navigate('deData');
+      const querySnapshot = await db.collection('deDetails')
+        .where('headerRef', '==', headerRef.id)
+        .get();
+  
+      if (querySnapshot.size >= 1) {
+        const details = [];
+        
+        for (const doc of querySnapshot.docs) {
+          let data = { ...doc.data() };
+          let client = await data.clientRef.get();
+          data.client = client.data();
+  
+          details.push(data);
+        }
+  
+        this.setState({ details });
+      }
     }
   }
 
@@ -91,16 +95,16 @@ class DetailView extends Component {
   }
 
   render() {
-    const { enable } = this.state;
+    const { details, enable } = this.state;
 
     return (
-      <View style={styles.container}>
+      <View style={styles.container} key={Date.now()}>
         <SearchBarView
           search={this.search}
         />
 
         <FlatList
-          data={[{key: 'a'}, {key: 'b'}]}
+          data={details}
           ItemSeparatorComponent={this.renderSeparator}
           renderItem={({item}) => this.renderItem(item)}
           scrollEnabled={enable}
