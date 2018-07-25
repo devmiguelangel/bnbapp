@@ -64,11 +64,6 @@ class ClientView extends Component {
     headerTitleStyle: {
       fontWeight: 'normal',
       textAlign: 'left',
-      ...Platform.select({
-        android: {
-          marginLeft: 55,
-        }
-      })
     },
     headerBackTitle: null,
   });

@@ -3,7 +3,6 @@ import {
   FlatList,
   Image,
   Modal,
-  Platform,
   Text,
   TouchableOpacity,
   View
@@ -31,11 +30,6 @@ class DetailView extends Component {
     headerTitleStyle: {
       fontWeight: 'normal',
       textAlign: 'left',
-      ...Platform.select({
-        android: {
-          marginLeft: 55,
-        }
-      })
     },
     headerBackTitle: null,
   });

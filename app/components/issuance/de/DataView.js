@@ -55,11 +55,6 @@ class DataView extends Component {
     headerTitleStyle: {
       fontWeight: 'normal',
       textAlign: 'left',
-      ...Platform.select({
-        android: {
-          marginLeft: 55,
-        }
-      })
     },
   });
 

@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import {
   Alert,
-  Platform,
   Switch,
   Text,
   TouchableOpacity,
@@ -31,11 +30,6 @@ class QuestionView extends Component {
     headerTitleStyle: {
       fontWeight: 'normal',
       textAlign: 'left',
-      ...Platform.select({
-        android: {
-          marginLeft: 55,
-        }
-      })
     },
   });
 
