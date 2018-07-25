@@ -5,13 +5,18 @@ import {
 } from 'react-native';
 
 /* Fonts */
-export const $RobotoRegular = 'Roboto-Regular';
 export const $RobotoMedium = 'Roboto-Medium';
+export const $RobotoRegular = 'Roboto-Regular';
 export const $RobotoLight = 'Roboto-Light';
 export const $MontserratMedium = 'Montserrat-Medium';
+export const $QuicksandBold = 'Quicksand-Bold';
+export const $QuicksandMedium = 'Quicksand-Medium';
+export const $QuicksandRegular = 'Quicksand-Regular';
+export const $QuicksandLight = 'Quicksand-Light';
 
 /* Colors */
-export const $ColorBg = '#FFFFFF';
+export const $ColorBg = 'rgba(217,241,240, .10)';
+// export const $ColorBg = 'white';
 export const $ColorStatusBar01 = '#00897B';
 export const $ColorStatusBar02 = '#102027';
 export const $ColorLinkPrimary = '#EFEBE9';
@@ -20,6 +25,7 @@ export const $ColorPrimary = '#007AFF';
 export const $ColorSecondary = '#666666';
 export const $ColorSecondary02 = '#607D8B';
 export const $ColorSuccess = '#4CD964';
+export const $ColorSuccess02 = '#4DB6AC';
 export const $ColorInfo = '#5AC8FA';
 export const $ColorWarning = '#FF9500';
 export const $ColorLight = '#FFCC00';
@@ -28,6 +34,10 @@ export const $ColorFormText = '#37474F';
 
 export default StyleSheet.create({
   /* Container */
+  bg: {
+    flex: 1,
+    backgroundColor: 'white',
+  },
   container: {
     flex: 1,
     backgroundColor: $ColorBg,
@@ -108,9 +118,21 @@ export default StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'stretch',
     height: 55,
-    backgroundColor: $ColorSuccess,
+    backgroundColor: $ColorSuccess02,
   },
   btnSuccessLargeText: {
+    fontFamily: $RobotoLight,
+    fontSize: 22,
+    color: 'white',
+  },
+  btnSuccessMedium: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 188,
+    height: 55,
+    backgroundColor: $ColorSuccess02,
+  },
+  btnSuccessMediumText: {
     fontFamily: $RobotoLight,
     fontSize: 22,
     color: 'white',
@@ -145,25 +167,29 @@ export default StyleSheet.create({
   },
   insuranceContainer: {
     flexDirection: 'row',
-    justifyContent: 'flex-start',
     alignItems: 'center',
-    width: '90%',
-    height: 110,
-    marginBottom: 15,
-    backgroundColor: 'white',
-    borderRadius: 5,
+    alignSelf: 'stretch',
+    height: 70,
+    backgroundColor: '#F6F7FB',
+    borderBottomWidth: 1,
+    borderBottomColor: '#CFD8DC',
   },
   insuranceIconBox: {
     alignSelf: 'stretch',
     justifyContent: 'center',
     alignItems: 'flex-end',
-    width: '25%',
+    paddingHorizontal: 30,
+    borderLeftWidth: 4,
+    borderLeftColor: 'black',
   },
   insuranceLabel: {
-    fontFamily: $RobotoMedium,
-    fontSize: 17,
-    color: 'white',
-    marginLeft: 15,
+    flex: 1,
+    fontFamily: $QuicksandMedium,
+    fontSize: 18,
+    color: '#223251',
+  },
+  insuranceIconMore: {
+    marginRight: 20,
   },
   /* Product List */
   productListBox: {
@@ -218,26 +244,39 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   /* Issuance */
-  formGroup: {
+  formContainer: {
     flexDirection: 'row',
-    // justifyContent: 'space-between',
-    height: 45,
+    justifyContent: 'space-between',
+    alignSelf: 'stretch',
+    height: 'auto',
     marginBottom: 7,
   },
-  formBox: {
+  formGroup: {
     flex: 1,
+    marginHorizontal: 5,
+  },
+  formBox: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginHorizontal: 5,
     paddingHorizontal: 10,
+    height: 45,
+    // backgroundColor: 'rgba(236,239,241, .10)',
     backgroundColor: 'white',
     borderWidth: 1,
     borderColor: 'rgba(58,137,137, .2)',
+    // borderColor: 'rgba(220,220,222, .55)',
     borderRadius: 5,
   },
   formBoxArea: {
     height: 80
+  },
+  formLabel: {
+    marginLeft: 4,
+    marginBottom: 5,
+    fontFamily: $QuicksandMedium,
+    fontSize: 14,
+    color: '#78909C',
   },
   formInput: {
     flex: 1,
@@ -277,8 +316,36 @@ export default StyleSheet.create({
   },
   questionText: {
     flex: 1,
-    fontFamily: $RobotoLight,
+    fontFamily: $QuicksandRegular,
     fontSize: 14,
     marginRight: 6,
+  },
+  /* Modal */
+  modalBg: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(30,50,56, .70)',
+  },
+  /* ActionSheet */
+  actionSheetBox: {
+    alignSelf: 'stretch',
+    height: 'auto',
+    backgroundColor: 'white',
+    paddingTop: 15,
+  },
+  actionSheetOption: {
+    flexDirection: 'row',
+    alignSelf: 'stretch',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    height: 55,
+    paddingHorizontal: 30,
+    borderBottomWidth: .5,
+    borderBottomColor: '#CFD8DC',
+  },
+  actionSheetOptionText: {
+    fontSize: 18,
+    color: '#263238',
   },
 });

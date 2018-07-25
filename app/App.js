@@ -9,11 +9,11 @@ import AuthStack from './containers/auth/AuthStack';
 import AppStack from './containers/AppStack';
 import Loading from './commons/Loading';
 
-/* YellowBox.ignoreWarnings([
-  'Warning: isMounted',
-  'Module RCTImageLoader requires',
+YellowBox.ignoreWarnings([
+  // 'Warning: isMounted',
+  // 'Module RCTImageLoader requires',
   'Setting a timer',
-]); */
+]);
 
 export default class App extends Component {
   constructor(props) {

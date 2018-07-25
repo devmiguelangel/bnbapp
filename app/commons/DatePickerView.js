@@ -35,7 +35,7 @@ export default class DatePickerView extends Component {
 
         if (action !== DatePickerAndroid.dismissedAction) {
           const newDate = moment([year, month, day]).toDate();
-
+          
           this.props.handleValue(field, newDate);
         }
       } catch ({ code, message }) {

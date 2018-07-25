@@ -7,7 +7,6 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import reducer from './../../reducers/home';
 
 import HomeListView from './../../components/home/HomeListView';
-import ProductListView from './../../components/home/ProductListView';
 import DataView from './../../components/issuance/de/DataView';
 import DetailView from './../../components/issuance/de/DetailView';
 import ClientView from './../../components/issuance/de/ClientView';
@@ -16,7 +15,6 @@ import QuestionView from './../../components/issuance/de/QuestionView';
 const Insurance = createStackNavigator(
   {
     HomeList: HomeListView,
-    ProductList: ProductListView,
     /* DE Issuance */
     deData: DataView,
     deDetail: DetailView,
@@ -27,7 +25,7 @@ const Insurance = createStackNavigator(
     initialRouteName: 'HomeList',
     navigationOptions: {
       headerStyle: {
-        backgroundColor: '#F9FCFD'
+        backgroundColor: '#F9FCFD',
       },
       gesturesEnabled: true,
     }

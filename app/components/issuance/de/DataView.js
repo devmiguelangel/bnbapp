@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import {
   Picker,
   Platform,
+  StatusBar,
   Text,
   TextInput,
   TouchableOpacity,
@@ -15,7 +16,7 @@ import numeral from 'numeral';
 
 import * as actions from './../../../actions/home';
 import { auth, db } from './../../../utils/firebase';
-
+import { getDetails } from './DetailView';
 import PickerView from './../../../commons/PickerView';
 import LoadingView from './../../../commons/Loading';
 
@@ -27,20 +28,22 @@ class DataView extends Component {
     this.state = {
       data: {
         coverage: '',
-        coverageLabel: 'Tipo de Cobertura',
-        coverages: [],
         amountRequested: '',
-        amountRequestedLabel: 'Monto Solicitado',
         currency: '',
-        currencyLabel: 'Moneda',
-        currencies: [],
         term: '',
-        termLabel: 'Plazo',
         termType: '',
-        termTypeLabel: 'Tipo de Plazo',
-        termTypes: [],
         creditProduct: '',
-        creditProductLabel: 'Producto',
+      },
+      labels: {
+        coverage: 'Seleccione...',
+        currency: 'Seleccione...',
+        termType: 'Seleccione...',
+        creditProduct: 'Seleccione...',
+      },
+      options: {
+        coverages: [],
+        currencies: [],
+        termTypes: [],
         creditProducts: [],
       },
       isLoading: false,
@@ -51,9 +54,13 @@ class DataView extends Component {
     headerTitle: 'Datos del Préstamo',
     headerTitleStyle: {
       fontWeight: 'normal',
-      textAlign: 'left'
+      textAlign: 'left',
+      ...Platform.select({
+        android: {
+          marginLeft: 55,
+        }
+      })
     },
-    headerBackTitle: null,
   });
 
   componentDidMount = () => {
@@ -87,8 +94,8 @@ class DataView extends Component {
     ];
 
     this.setState(prevState => ({
-      data: {
-        ...prevState.data,
+      options: {
+        ...prevState.options,
         coverages,
         currencies,
         termTypes,
@@ -111,34 +118,34 @@ class DataView extends Component {
   }
 
   handleOpenPicker = (field, lists) => {
-    const { data } = this.state;
+    const { data, options } = this.state;
     
-    this.pickerView.handleOpen(field, data[field], data[lists]);
+    this.pickerView.handleOpen(field, data[field], options[lists]);
   }
 
   handleValuePicker = (field, value, lists) => {
-    const fieldLabel = field + 'Label';
     const selectedItem = lists.filter(l => l.value == value)[0];
 
     this.setState(prevState => ({
       data: {
         ...prevState.data,
         [field]: selectedItem.value,
-        [fieldLabel]: selectedItem.label,
+      },
+      labels: {
+        ...prevState.labels,
+        [field]: selectedItem.label,
       }
     }));
   }
 
   handleStore = () => {
-    // this.handleLoading(true);
+    this.handleLoading(true);
 
     const { coverage, amountRequested, currency, term, termType, creditProduct } = this.state.data;
     const user = auth.currentUser;
     const date = moment();
-    
-    this.props.navigation.navigate('deDetail');
 
-    /* db.collection('deHeaders').add({
+    db.collection('deHeaders').add({
       userRef: user.uid,
       type: 'Q',
       issueNumber: 0,
@@ -158,183 +165,204 @@ class DataView extends Component {
       this.handleLoading(false);
 
       this.props.actions.setHeaderRef(docRef.id);
+      
+      getDetails(docRef.id).then(details => {
+        this.props.actions.setDetailList(details);
+      });
 
       this.props.navigation.navigate('deDetail');
     })
     .catch(error => {
       this.handleLoading(false);
-    }); */
+    });
   }
 
   render() {
-    const { data, isLoading } = this.state;
+    const { data, labels, options, isLoading } = this.state;
 
     return (
       <Fragment>
         <LoadingView visible={isLoading} />
 
-        <View style={[styles.container, { paddingTop: 10 }]}>
-          {
-            Platform.OS === 'ios' ? (
-              <TouchableOpacity
-                style={styles.formGroup}
-                activeOpacity={1}
-                onPress={() => this.handleOpenPicker('coverage', 'coverages')}
-              >
-                <View style={styles.formBox}>
-                  <Text style={styles.formInput} numberOfLines={1}>{data.coverageLabel}</Text>
-                  <Icon name="md-arrow-dropdown" size={20} color={$ColorFormText} style={styles.formIcon} />
-                </View>
-              </TouchableOpacity>
-            ) : (
+        <StatusBar backgroundColor="rgba(198,201,202, .5)" barStyle="dark-content" />
+
+        <View style={styles.bg}>
+          <View style={[styles.container, { paddingTop: 10 }]}>
+            <View style={styles.formContainer}>
               <View style={styles.formGroup}>
+                <Text style={styles.formLabel}>Tipo de Cobertura *</Text>
+                {
+                  Platform.OS === 'ios' ? (
+                    <TouchableOpacity
+                      style={styles.formBox}
+                      activeOpacity={1}
+                      onPress={() => this.handleOpenPicker('coverage', 'coverages')}
+                    >
+                      <Text style={styles.formInput} numberOfLines={1}>{labels.coverage}</Text>
+                      <Icon name="md-arrow-dropdown" size={20} color={$ColorFormText} style={styles.formIcon} />
+                    </TouchableOpacity>
+                  ) : (
+                    <View style={styles.formBox}>
+                      <Picker
+                        style={styles.formPicker}
+                        selectedValue={data.coverage}
+                        onValueChange={(itemValue, itemIndex) => this.handleInputChange('coverage', itemValue)}
+                      >
+                        <Picker.Item value="" label="Seleccione..." />
+                        {
+                          options.coverages.map(item => <Picker.Item value={item.value} label={item.label} key={item.value} />)
+                        }
+                      </Picker>
+                    </View>
+                  )
+                }
+              </View>
+            </View>
+
+            <View style={styles.formContainer}>
+              <View style={styles.formGroup}>
+                <Text style={styles.formLabel}>Monto Solicitado *</Text>
                 <View style={styles.formBox}>
-                  <Picker
-                    style={styles.formPicker}
-                    selectedValue={data.coverage}
-                    onValueChange={(itemValue, itemIndex) => this.handleInputChange('coverage', itemValue)}
-                  >
-                    <Picker.Item value="" label={data.coverageLabel} />
-                    {
-                      data.coverages.map(item => <Picker.Item value={item.value} label={item.label} key={item.value} />)
-                    }
-                  </Picker>
+                  <TextInput
+                    style={styles.formInput}
+                    keyboardType="numeric"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    placeholder={data.amountRequestedLabel}
+                    placeholderTextColor={$ColorFormText}
+                    returnKeyType="next"
+                    underlineColorAndroid="transparent"
+                    value={data.amountRequested}
+                    onChangeText={(value) => this.handleInputChange('amountRequested', value)}
+                  />
                 </View>
               </View>
-            )
-          }
-
-          <View style={styles.formGroup}>
-            <View style={styles.formBox}>
-              <TextInput
-                style={styles.formInput}
-                keyboardType="numeric"
-                autoCapitalize="none"
-                autoCorrect={false}
-                placeholder={data.amountRequestedLabel}
-                placeholderTextColor={$ColorFormText}
-                returnKeyType="next"
-                underlineColorAndroid="transparent"
-                value={data.amountRequested}
-                onChangeText={(value) => this.handleInputChange('amountRequested', value)}
-              />
+              <View style={styles.formGroup}>
+                <Text style={styles.formLabel}>Moneda *</Text>
+                {
+                  Platform.OS === 'ios' ? (
+                    <TouchableOpacity
+                      style={styles.formBox}
+                      activeOpacity={1}
+                      onPress={() => this.handleOpenPicker('currency', 'currencies')}
+                    >
+                      <Text style={styles.formInput} numberOfLines={1}>{labels.currency}</Text>
+                      <Icon name="md-arrow-dropdown" size={20} color={$ColorFormText} style={styles.formIcon} />
+                    </TouchableOpacity>
+                  ) : (
+                    <View style={styles.formBox}>
+                      <Picker
+                        style={styles.formPicker}
+                        selectedValue={data.currency}
+                        onValueChange={(itemValue, itemIndex) => this.handleInputChange('currency', itemValue)}
+                      >
+                        <Picker.Item value="" label="Seleccione..." />
+                        {
+                          options.currencies.map(item => <Picker.Item value={item.value} label={item.label} key={item.value} />)
+                        }
+                      </Picker>
+                    </View>
+                  )
+                }
+              </View>
             </View>
-            {
-              Platform.OS === 'ios' ? (
-                <TouchableOpacity
-                  style={styles.formBox}
-                  activeOpacity={1}
-                  onPress={() => this.handleOpenPicker('currency', 'currencies')}
-                >
-                  <Text style={styles.formInput} numberOfLines={1}>{data.currencyLabel}</Text>
-                  <Icon name="md-arrow-dropdown" size={20} color={$ColorFormText} style={styles.formIcon} />
-                </TouchableOpacity>
-              ) : (
+            
+            <View style={styles.formContainer}>
+              <View style={styles.formGroup}>
+                <Text style={styles.formLabel}>Plazo *</Text>
                 <View style={styles.formBox}>
-                  <Picker
-                    style={styles.formPicker}
-                    selectedValue={data.currency}
-                    onValueChange={(itemValue, itemIndex) => this.handleInputChange('currency', itemValue)}
-                  >
-                    <Picker.Item value="" label={data.currencyLabel} />
-                    {
-                      data.currencies.map(item => <Picker.Item value={item.value} label={item.label} key={item.value} />)
-                    }
-                  </Picker>
+                  <TextInput
+                    style={styles.formInput}
+                    keyboardType="numeric"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    placeholder={data.termLabel}
+                    placeholderTextColor={$ColorFormText}
+                    returnKeyType="next"
+                    underlineColorAndroid="transparent"
+                    value={data.term}
+                    onChangeText={(value) => this.handleInputChange('term', value)}
+                  />
                 </View>
+              </View>
+              <View style={styles.formGroup}>
+                <Text style={styles.formLabel}>Tipo de Plazo *</Text>
+                {
+                  Platform.OS === 'ios' ? (
+                    <TouchableOpacity
+                      style={styles.formBox}
+                      activeOpacity={1}
+                      onPress={() => this.handleOpenPicker('termType', 'termTypes')}
+                    >
+                      <Text style={styles.formInput} numberOfLines={1}>{labels.termType}</Text>
+                      <Icon name="md-arrow-dropdown" size={20} color={$ColorFormText} style={styles.formIcon} />
+                    </TouchableOpacity>
+                  ) : (
+                    <View style={styles.formBox}>
+                      <Picker
+                        style={styles.formPicker}
+                        selectedValue={data.termType}
+                        onValueChange={(itemValue, itemIndex) => this.handleInputChange('termType', itemValue)}
+                      >
+                        <Picker.Item value="" label="Seleccione..." />
+                        {
+                          options.termTypes.map(item => <Picker.Item value={item.value} label={item.label} key={item.value} />)
+                        }
+                      </Picker>
+                    </View>
+                  )
+                }
+              </View>
+            </View>
+
+            <View style={styles.formContainer}>
+              <View style={styles.formGroup}>
+                <Text style={styles.formLabel}>Producto *</Text>
+                {
+                  Platform.OS === 'ios' ? (
+                    <TouchableOpacity
+                      style={styles.formBox}
+                      activeOpacity={1}
+                      onPress={() => this.handleOpenPicker('creditProduct', 'creditProducts')}
+                    >
+                      <Text style={styles.formInput} numberOfLines={1}>{labels.creditProduct}</Text>
+                      <Icon name="md-arrow-dropdown" size={20} color={$ColorFormText} style={styles.formIcon} />
+                    </TouchableOpacity>
+                  ) : (
+                    <View style={styles.formBox}>
+                      <Picker
+                        style={styles.formPicker}
+                        selectedValue={data.creditProduct}
+                        onValueChange={(itemValue, itemIndex) => this.handleInputChange('creditProduct', itemValue)}
+                      >
+                        <Picker.Item value="" label="Seleccione..." />
+                        {
+                          options.creditProducts.map(item => <Picker.Item value={item.value} label={item.label} key={item.value} />)
+                        }
+                      </Picker>
+                    </View>
+                  )
+                }
+              </View>
+            </View>
+
+            {
+              Platform.OS === 'ios' && (
+                <PickerView
+                  ref={(pickerView) => { this.pickerView = pickerView; }}
+                  handleValue={this.handleValuePicker}
+                />
               )
             }
           </View>
-          
-          <View style={styles.formGroup}>
-            <View style={styles.formBox}>
-              <TextInput
-                style={styles.formInput}
-                keyboardType="numeric"
-                autoCapitalize="none"
-                autoCorrect={false}
-                placeholder={data.termLabel}
-                placeholderTextColor={$ColorFormText}
-                returnKeyType="next"
-                underlineColorAndroid="transparent"
-                value={data.term}
-                onChangeText={(value) => this.handleInputChange('term', value)}
-              />
-            </View>
-            {
-              Platform.OS === 'ios' ? (
-                <TouchableOpacity
-                  style={styles.formBox}
-                  activeOpacity={1}
-                  onPress={() => this.handleOpenPicker('termType', 'termTypes')}
-                >
-                  <Text style={styles.formInput} numberOfLines={1}>{data.termTypeLabel}</Text>
-                  <Icon name="md-arrow-dropdown" size={20} color={$ColorFormText} style={styles.formIcon} />
-                </TouchableOpacity>
-              ) : (
-                <View style={styles.formBox}>
-                  <Picker
-                    style={styles.formPicker}
-                    selectedValue={data.termType}
-                    onValueChange={(itemValue, itemIndex) => this.handleInputChange('termType', itemValue)}
-                  >
-                    <Picker.Item value="" label={data.termTypeLabel} />
-                    {
-                      data.termTypes.map(item => <Picker.Item value={item.value} label={item.label} key={item.value} />)
-                    }
-                  </Picker>
-                </View>
-              )
-            }
-          </View>
-
-          {
-            Platform.OS === 'ios' ? (
-              <TouchableOpacity
-                style={styles.formGroup}
-                activeOpacity={1}
-                onPress={() => this.handleOpenPicker('creditProduct', 'creditProducts')}
-              >
-                <View style={styles.formBox}>
-                  <Text style={styles.formInput} numberOfLines={1}>{data.creditProductLabel}</Text>
-                  <Icon name="md-arrow-dropdown" size={20} color={$ColorFormText} style={styles.formIcon} />
-                </View>
-              </TouchableOpacity>
-            ) : (
-              <View style={styles.formGroup}>
-                <View style={styles.formBox}>
-                  <Picker
-                    style={styles.formPicker}
-                    selectedValue={data.creditProduct}
-                    onValueChange={(itemValue, itemIndex) => this.handleInputChange('creditProduct', itemValue)}
-                  >
-                    <Picker.Item value="" label={data.creditProductLabel} />
-                    {
-                      data.creditProducts.map(item => <Picker.Item value={item.value} label={item.label} key={item.value} />)
-                    }
-                  </Picker>
-                </View>
-              </View>
-            )
-          }
-
-          {
-            Platform.OS === 'ios' && (
-              <PickerView
-                ref={(pickerView) => { this.pickerView = pickerView; }}
-                handleValue={this.handleValuePicker}
-              />
-            )
-          }
+          <TouchableOpacity
+            style={styles.btnSuccessLarge}
+            activeOpacity={0.8}
+            onPress={() => this.handleStore()}
+          >
+            <Text style={styles.btnSuccessLargeText}>Siguiente</Text>
+          </TouchableOpacity>
         </View>
-
-        <TouchableOpacity
-          style={styles.btnSuccessLarge}
-          activeOpacity={0.8}
-          onPress={() => this.handleStore()}
-        >
-          <Text style={styles.btnSuccessLargeText}>Siguiente</Text>
-        </TouchableOpacity>
       </Fragment>
     )
   }

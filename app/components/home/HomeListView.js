@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
+import ActionSheetView from './../../commons/ActionSheetView';
 import styles, {
   $ColorStatusBar02,
   $ColorSuccess,
@@ -19,16 +20,44 @@ import styles, {
 } from './../../assets/css/styles';
 
 export default class HomeListView extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      action: false,
+      options: [
+        {
+          text: 'Desgravamen',
+          icon: 'ios-apps',
+        },
+        {
+          text: 'Cancelar',
+        },
+      ],
+    };
+  }
+
   static navigationOptions = ({ navigation }) => ({
     header: null,
   });
 
+  handleAction = (action = true, index = -1) => {
+    this.setState({ action: action });
+
+    switch (index) {
+      case 0:
+        this.props.navigation.navigate('deData');
+        break;
+    }
+  }
+
   render() {
+    const { action, options } = this.state;
+
     return (
       <Fragment>
         <StatusBar backgroundColor={$ColorStatusBar02} barStyle="light-content" />
 
-        <View style={styles.container}>
+        <View style={[styles.container, { backgroundColor: 'white', }]}>
           <View style={styles.logoBox}>
             <Image
               source={require('./../../assets/img/logo-app-02.png')}
@@ -37,73 +66,87 @@ export default class HomeListView extends Component {
           </View>
 
           <ScrollView
-            contentContainerStyle={styles.insuranceBox}
+            contentContainerStyle={[styles.insuranceBox, { paddingTop: 0, }]}
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}
           >
             <TouchableOpacity
-              style={[styles.insuranceContainer, { backgroundColor: $ColorSuccess }]}
+              style={styles.insuranceContainer}
               activeOpacity={0.7}
-              onPress={() => this.props.navigation.navigate('ProductList')}
+              onPress={() => this.handleAction()}
             >
-              <View style={styles.insuranceIconBox}>
-                <Icon name="ios-albums" size={60} color="white" />
+              <View style={[styles.insuranceIconBox, { borderLeftColor: '#66BB6A', }]}>
+                <Icon name="ios-apps" size={50} color="#B0BEC5" />
               </View>
               <Text style={styles.insuranceLabel}>
                 Emisión de Pólizas
               </Text>
+              <Icon name="md-more" size={30} color="#939BA8" style={styles.insuranceIconMore} />
             </TouchableOpacity>
             
             <TouchableOpacity
-              style={[styles.insuranceContainer, { backgroundColor: $ColorDanger }]}
+              style={styles.insuranceContainer}
               activeOpacity={0.7}
             >
-              <View style={styles.insuranceIconBox}>
-                <Icon name="ios-close-circle" size={60} color="white" />
+              <View style={[styles.insuranceIconBox, { borderLeftColor: '#EF5350', }]}>
+                <Icon name="ios-close-circle" size={50} color="#B0BEC5" />
               </View>
               <Text style={styles.insuranceLabel}>
                 Anulaciones
               </Text>
+              <Icon name="md-more" size={30} color="#939BA8" style={styles.insuranceIconMore} />
             </TouchableOpacity>
-            
+
             <TouchableOpacity
-              style={[styles.insuranceContainer, { backgroundColor: $ColorInfo }]}
+              style={styles.insuranceContainer}
               activeOpacity={0.7}
             >
-              <View style={styles.insuranceIconBox}>
-                <Icon name="ios-checkmark-circle" size={60} color="white" />
+              <View style={[styles.insuranceIconBox, { borderLeftColor: '#4DC5F0', }]}>
+                <Icon name="ios-stats" size={50} color="#B0BEC5" />
               </View>
               <Text style={styles.insuranceLabel}>
-                Solicitudes Pre Aprobadas
+                Reportes
               </Text>
+              <Icon name="md-more" size={30} color="#939BA8" style={styles.insuranceIconMore} />
             </TouchableOpacity>
-            
+
             <TouchableOpacity
-              style={[styles.insuranceContainer, { backgroundColor: $ColorLight }]}
+              style={styles.insuranceContainer}
               activeOpacity={0.7}
             >
-              <View style={styles.insuranceIconBox}>
-                <Icon name="ios-card" size={60} color="white" />
+              <View style={[styles.insuranceIconBox, { borderLeftColor: '#FDEB71', }]}>
+                <Icon name="ios-filing" size={50} color="#B0BEC5" />
               </View>
               <Text style={styles.insuranceLabel}>
                 Líneas de Crédito
               </Text>
+              <Icon name="md-more" size={30} color="#939BA8" style={styles.insuranceIconMore} />
             </TouchableOpacity>
-            
+
             <TouchableOpacity
-              style={[styles.insuranceContainer, { backgroundColor: $ColorSecondary }]}
+              style={styles.insuranceContainer}
               activeOpacity={0.7}
             >
-              <View style={styles.insuranceIconBox}>
-                <Icon name="ios-cog" size={60} color="white" />
+              <View style={[styles.insuranceIconBox, { borderLeftColor: '#85BACD', }]}>
+                <Icon name="ios-cog" size={50} color="#B0BEC5" />
               </View>
               <Text style={styles.insuranceLabel}>
                 Operaciones bajo Línea
               </Text>
+              <Icon name="md-more" size={30} color="#939BA8" style={styles.insuranceIconMore} />
             </TouchableOpacity>
 
           </ScrollView>
         </View>
+
+        {
+          action && (
+            <ActionSheetView
+              options={options}
+              handleAction={this.handleAction}
+            />
+          )
+        }
       </Fragment>
     )
   }

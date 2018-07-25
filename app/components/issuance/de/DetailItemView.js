@@ -10,6 +10,7 @@ import {
   View
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import moment from 'moment';
 
 const { width } = Dimensions.get('window');
 
@@ -29,12 +30,12 @@ export default class DetailItemView extends PureComponent {
       onMoveShouldSetPanResponder: (evt, gestureState) => true,
       onPanResponderTerminationRequest: (evt, gestureState) => false,
       onPanResponderMove: (evt, gestureState) => {
-        if (gestureState.dx < -35) {
+        if (gestureState.dx < -180) {
           this.setScrollViewEnabled(false);
           let newX = gestureState.dx + this.gestureDelay;
           position.setValue({ x: newX, y: 0 });
         }
-        
+
         /* if (gestureState.dx > 35) {
           this.setScrollViewEnabled(false);
           let newX = gestureState.dx + this.gestureDelay;
@@ -51,10 +52,10 @@ export default class DetailItemView extends PureComponent {
           });
         } else {
           Animated.timing(this.state.position, {
-            toValue: { x: - 210, y: 0 },
+            toValue: { x: -210, y: 0 },
             duration: 300,
           }).start(() => {
-            this.props.success(this.props.item);
+            // this.props.success(this.props.item);
             this.setScrollViewEnabled(true);
           });
         }
@@ -73,38 +74,38 @@ export default class DetailItemView extends PureComponent {
   }
   
   render() {
-    const { item } = this.props;
+    const { item, index } = this.props;
 
     return (
       <View style={styles.listItem}>
         <Animated.View style={[this.state.position.getLayout()]} {...this.panResponder.panHandlers}>
           <View style={styles.detailBox}>
             <View style={styles.headlineBox}>
-              <Text style={styles.headlineText}>T</Text>
+              <Text style={styles.headlineText}>{index === 0 ? 'T' : `C${index}`}</Text>
             </View>
             <View style={styles.detailDataBox}>
               <Text style={styles.detailDataText01}>{`${item.client.firstName} ${item.client.lastName} ${item.client.motherLastName}`}</Text>
-              <Text style={styles.detailDataText02}>{`${item.client.dni}`} ${item.client.extension}</Text>
-              <Text style={styles.detailDataText02}>{`${item.client.birthdate}`}</Text>
+              <Text style={styles.detailDataText02}>{`Doc. de Identidad: ${item.client.dni} ${item.client.extension}`}</Text>
+              <Text style={styles.detailDataText02}>{`Fecha de Nacimiento: ${moment(item.client.birthdate, 'X').format('DD/MM/YYYY')}`}</Text>
             </View>
           </View>
           <View style={styles.actionCell}>
             <TouchableOpacity
-              style={[styles.actionItem, { backgroundColor: '#26A69A' }]}
+              style={[styles.actionItem, { backgroundColor: '#3DA9AB' }]}
               activeOpacity={0.8}
             >
               <Icon name={Platform.OS === 'ios' ? 'ios-list-box' : 'md-list-box'} size={30} color="white" style={{ marginTop: 5 }} />
               <Text style={styles.actionText}>Custionario de Salud</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={[styles.actionItem, { backgroundColor: '#29B6F6' }]}
+              style={[styles.actionItem, { backgroundColor: '#44BDF4' }]}
               activeOpacity={0.8}
             >
               <Icon name={Platform.OS === 'ios' ? 'ios-create' : 'md-create'} size={30} color="white" style={{ marginTop: 5 }} />
               <Text style={styles.actionText}>Editar</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={[styles.actionItem, { backgroundColor: '#EF5350' }]}
+              style={[styles.actionItem, { backgroundColor: '#F34B56' }]}
               activeOpacity={0.8}
             >
               <Icon name={Platform.OS === 'ios' ? 'ios-trash' : 'md-trash'} size={30} color="white" style={{ marginTop: 5 }} />
@@ -122,7 +123,7 @@ const styles = StyleSheet.create({
     height: 70,
     marginRight: -210,
     justifyContent: 'center',
-    backgroundColor: 'white',
+    backgroundColor: '#F8FAFF',
   },
   actionCell: {
     position: 'absolute',
@@ -158,27 +159,30 @@ const styles = StyleSheet.create({
   headlineBox: {
     justifyContent: 'center',
     alignItems: 'center',
-    width: 35,
-    height: 35,
-    marginHorizontal: 15,
-    backgroundColor: '#007AFF',
-    borderRadius: 50,
+    width: 65,
+    height: 40,
+    backgroundColor: 'white',
+    borderRightWidth: 1,
+    borderRightColor: '#CFD8DC',
   },
   headlineText: {
     fontFamily: $RobotoRegular,
-    fontSize: 20,
-    color: 'white',
+    fontSize: 28,
+    color: '#78909C',
   },
   detailDataBox: {
     flex: 1,
-    paddingVertical: 10,
+    paddingVertical: 5,
+    marginLeft: 20,
   },
   detailDataText01: {
     fontFamily: $RobotoMedium,
-    fontSize: 14,
+    fontSize: 17,
+    color: '#455A64',
   },
   detailDataText02: {
     fontFamily: $RobotoLight,
-    fontSize: 12,
+    fontSize: 14,
+    color: 'black',
   },
 });

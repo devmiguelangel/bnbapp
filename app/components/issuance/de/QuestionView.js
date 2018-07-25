@@ -1,18 +1,23 @@
 import React, { Component, Fragment } from 'react';
 import {
   Alert,
+  Platform,
   Switch,
   Text,
   TouchableOpacity,
   View
 } from 'react-native';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import moment from 'moment';
 
+import * as actions from './../../../actions/home';
 import { db } from './../../../utils/firebase';
+import { getDetails } from './DetailView';
 import LoadingView from './../../../commons/Loading';
 import styles from './../../../assets/css/styles';
 
-export default class QuestionView extends Component {
+class QuestionView extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,7 +30,12 @@ export default class QuestionView extends Component {
     headerTitle: 'Cuestionario de Salud',
     headerTitleStyle: {
       fontWeight: 'normal',
-      textAlign: 'left'
+      textAlign: 'left',
+      ...Platform.select({
+        android: {
+          marginLeft: 55,
+        }
+      })
     },
   });
 
@@ -82,7 +92,7 @@ export default class QuestionView extends Component {
     this.setState({ isLoading: true });
 
     const { questions } = this.state;
-    const { navigation } = this.props;
+    const { headerRef, navigation } = this.props;
     const detailId = navigation.getParam('detailId');
     const data = moment();
 
@@ -92,6 +102,10 @@ export default class QuestionView extends Component {
       })
       .then(() => {
         this.setState({ isLoading: false });
+        getDetails(headerRef).then(details => {
+          this.props.actions.setDetailList(details);
+        });
+
         navigation.navigate('deDetail');
       })
       .catch(error => {
@@ -113,29 +127,45 @@ export default class QuestionView extends Component {
       <Fragment>
         <LoadingView visible={isLoading} />
 
-        <View style={[styles.container, { paddingTop: 10 }]}>
-          {
-            questions.map((question, index) => 
-              <View style={styles.questionBox} key={index}>
-                <Text style={styles.questionNumber}>{question.order}.</Text>
-                <Text style={styles.questionText}>{question.question}</Text>
-                <Switch
-                  value={question.response}
-                  onValueChange={(value) => this.toggleSwitch(value, question.id)}
-                />
-              </View>
-            )
-          }
+        <View style={styles.bg}>
+          <View style={[styles.container, { paddingTop: 10 }]}>
+            {
+              questions.map((question, index) => 
+                <View style={styles.questionBox} key={index}>
+                  <Text style={styles.questionNumber}>{question.order}.</Text>
+                  <Text style={styles.questionText}>{question.question}</Text>
+                  <Switch
+                    value={question.response}
+                    onValueChange={(value) => this.toggleSwitch(value, question.id)}
+                  />
+                </View>
+              )
+            }
+          </View>
+          
+          <TouchableOpacity
+            style={styles.btnSuccessLarge}
+            activeOpacity={0.8}
+            onPress={() => this.handleStore()}
+          >
+            <Text style={styles.btnSuccessLargeText}>Registrar Cuestionario de Salud</Text>
+          </TouchableOpacity>
         </View>
-        
-        <TouchableOpacity
-          style={styles.btnSuccessLarge}
-          activeOpacity={0.8}
-          onPress={() => this.handleStore()}
-        >
-          <Text style={styles.btnSuccessLargeText}>Registrar Cuestionario de Salud</Text>
-        </TouchableOpacity>
       </Fragment>
     )
   }
 }
+
+const mapStateToProps = (state, props) => {
+  return {
+    headerRef: state.issuance.headerRef,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    actions: bindActionCreators(actions, dispatch),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(QuestionView);

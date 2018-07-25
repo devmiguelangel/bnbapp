@@ -2,6 +2,7 @@ import { Issuance } from './../types';
 
 const initialState = {
   headerRef: null,
+  details: [],
 };
 
 const issuanceReducer = (state = initialState, action) => {
@@ -12,6 +13,15 @@ const issuanceReducer = (state = initialState, action) => {
       return {
         ...state,
         headerRef: ref,
+      }
+    }
+
+    case Issuance.SET_DETAIL_LIST: {
+      const { details } = action.payload;
+
+      return {
+        ...state,
+        details: details,
       }
     }
 
