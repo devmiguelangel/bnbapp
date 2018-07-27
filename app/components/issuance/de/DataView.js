@@ -57,6 +57,7 @@ class DataView extends Component {
       fontWeight: 'normal',
       textAlign: 'left',
     },
+    headerBackTitle: null,
   });
 
   componentDidMount = () => {

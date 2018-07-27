@@ -16,6 +16,7 @@ export const $QuicksandLight = 'Quicksand-Light';
 
 /* Colors */
 export const $ColorBg = 'rgba(217,241,240, .10)';
+export const $ColorFormBox = 'rgba(58,137,137, .2)';
 // export const $ColorBg = 'white';
 export const $ColorStatusBar01 = '#00897B';
 export const $ColorStatusBar02 = '#102027';
@@ -200,7 +201,7 @@ export default StyleSheet.create({
     padding: 10,
     backgroundColor: '#FFFFFF',
     borderWidth: 1,
-    borderColor: 'rgba(58,137,137, .2)',
+    borderColor: $ColorFormBox,
     borderRadius: 3,
   },
   productListIconBox: {
@@ -264,7 +265,7 @@ export default StyleSheet.create({
     // backgroundColor: 'rgba(236,239,241, .10)',
     backgroundColor: 'white',
     borderWidth: 1,
-    borderColor: 'rgba(58,137,137, .2)',
+    borderColor: $ColorFormBox,
     // borderColor: 'rgba(220,220,222, .55)',
     borderRadius: 5,
   },
@@ -327,6 +328,20 @@ export default StyleSheet.create({
     fontFamily: $QuicksandRegular,
     fontSize: 14,
     marginRight: 6,
+  },
+  questionObservationBox: {
+    height: 35,
+    padding: 4,
+    backgroundColor: 'white',
+    borderWidth: 1,
+    borderColor: '#CFD8DC',
+    borderRadius: 5,
+  },
+  questionObservationText: {
+    flex: 1,
+    fontFamily: $RobotoRegular,
+    fontSize: 14,
+    color: $ColorFormText,
   },
   /* Modal */
   modalBg: {

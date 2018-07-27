@@ -256,6 +256,10 @@ class ClientView extends Component {
   }
 
   handleStore = () => {
+    this.props.navigation.navigate('deQuestion', {
+      detailId: 'docRef.id',
+    });
+    return false;
     const { data } = this.state;
     let errors = {};
     let numErrors = 0;
@@ -305,7 +309,7 @@ class ClientView extends Component {
       <Fragment>
         <LoadingView visible={isLoading} />
 
-        <View style={{ flex: 1, justifyContent: 'flex-start', backgroundColor: 'white', }}>
+        <View style={styles.bg}>
           <ScrollView
             contentContainerStyle={[styles.insuranceBox, { paddingBottom: 0 }]}
             showsHorizontalScrollIndicator={false}
@@ -320,7 +324,6 @@ class ClientView extends Component {
                     keyboardType="default"
                     autoCapitalize="words"
                     autoCorrect={false}
-                    placeholderTextColor={$ColorFormText}
                     returnKeyType="next"
                     underlineColorAndroid="transparent"
                     value={data.firstName}
@@ -340,7 +343,6 @@ class ClientView extends Component {
                     keyboardType="default"
                     autoCapitalize="words"
                     autoCorrect={false}
-                    placeholderTextColor={$ColorFormText}
                     returnKeyType="next"
                     underlineColorAndroid="transparent"
                     value={data.lastName}
@@ -363,7 +365,6 @@ class ClientView extends Component {
                     keyboardType="default"
                     autoCapitalize="words"
                     autoCorrect={false}
-                    placeholderTextColor={$ColorFormText}
                     returnKeyType="next"
                     underlineColorAndroid="transparent"
                     value={data.motherLastName}
@@ -383,7 +384,6 @@ class ClientView extends Component {
                     keyboardType="default"
                     autoCapitalize="words"
                     autoCorrect={false}
-                    placeholderTextColor={$ColorFormText}
                     returnKeyType="next"
                     underlineColorAndroid="transparent"
                     value={data.marriedName}
@@ -406,7 +406,6 @@ class ClientView extends Component {
                     keyboardType="numeric"
                     autoCapitalize="none"
                     autoCorrect={false}
-                    placeholderTextColor={$ColorFormText}
                     returnKeyType="next"
                     underlineColorAndroid="transparent"
                     value={data.dni}
@@ -426,7 +425,6 @@ class ClientView extends Component {
                     keyboardType="default"
                     autoCapitalize="characters"
                     autoCorrect={false}
-                    placeholderTextColor={$ColorFormText}
                     returnKeyType="done"
                     underlineColorAndroid="transparent"
                     value={data.complement}
@@ -494,7 +492,6 @@ class ClientView extends Component {
                     keyboardType="default"
                     autoCapitalize="words"
                     autoCorrect={false}
-                    placeholderTextColor={$ColorFormText}
                     returnKeyType="next"
                     underlineColorAndroid="transparent"
                     value={data.placeResidence}
@@ -517,7 +514,6 @@ class ClientView extends Component {
                     keyboardType="default"
                     autoCapitalize="words"
                     autoCorrect={false}
-                    placeholderTextColor={$ColorFormText}
                     returnKeyType="next"
                     underlineColorAndroid="transparent"
                     value={data.locality}
@@ -541,7 +537,6 @@ class ClientView extends Component {
                     keyboardType="default"
                     autoCapitalize="words"
                     autoCorrect={false}
-                    placeholderTextColor={$ColorFormText}
                     underlineColorAndroid="transparent"
                     value={data.homeAddress}
                     onChangeText={(value) => this.handleInputChange('homeAddress', value)}
@@ -563,7 +558,6 @@ class ClientView extends Component {
                     keyboardType="default"
                     autoCapitalize="words"
                     autoCorrect={false}
-                    placeholderTextColor={$ColorFormText}
                     underlineColorAndroid="transparent"
                     value={data.businessAddress}
                     onChangeText={(value) => this.handleInputChange('businessAddress', value)}
@@ -584,7 +578,6 @@ class ClientView extends Component {
                     keyboardType="default"
                     autoCapitalize="words"
                     autoCorrect={false}
-                    placeholderTextColor={$ColorFormText}
                     returnKeyType="done"
                     underlineColorAndroid="transparent"
                     value={data.workplace}
@@ -638,7 +631,6 @@ class ClientView extends Component {
                     keyboardType="default"
                     autoCapitalize="sentences"
                     autoCorrect={false}
-                    placeholderTextColor={$ColorFormText}
                     underlineColorAndroid="transparent"
                     value={data.occupationDescription}
                     onChangeText={(value) => this.handleInputChange('occupationDescription', value)}
@@ -659,7 +651,6 @@ class ClientView extends Component {
                     keyboardType="phone-pad"
                     autoCapitalize="none"
                     autoCorrect={false}
-                    placeholderTextColor={$ColorFormText}
                     returnKeyType="next"
                     underlineColorAndroid="transparent"
                     value={data.phoneNumberHome}
@@ -679,7 +670,6 @@ class ClientView extends Component {
                     keyboardType="phone-pad"
                     autoCapitalize="none"
                     autoCorrect={false}
-                    placeholderTextColor={$ColorFormText}
                     returnKeyType="next"
                     underlineColorAndroid="transparent"
                     value={data.phoneNumberMobile}
@@ -702,7 +692,6 @@ class ClientView extends Component {
                     keyboardType="phone-pad"
                     autoCapitalize="none"
                     autoCorrect={false}
-                    placeholderTextColor={$ColorFormText}
                     returnKeyType="next"
                     underlineColorAndroid="transparent"
                     value={data.phoneNumberOffice}
@@ -722,7 +711,6 @@ class ClientView extends Component {
                     keyboardType="email-address"
                     autoCapitalize="none"
                     autoCorrect={false}
-                    placeholderTextColor={$ColorFormText}
                     returnKeyType="next"
                     underlineColorAndroid="transparent"
                     value={data.email}
@@ -745,7 +733,6 @@ class ClientView extends Component {
                     keyboardType="numeric"
                     autoCapitalize="none"
                     autoCorrect={false}
-                    placeholderTextColor={$ColorFormText}
                     returnKeyType="next"
                     underlineColorAndroid="transparent"
                     value={data.weight}
@@ -765,7 +752,6 @@ class ClientView extends Component {
                     keyboardType="numeric"
                     autoCapitalize="none"
                     autoCorrect={false}
-                    placeholderTextColor={$ColorFormText}
                     returnKeyType="done"
                     underlineColorAndroid="transparent"
                     value={data.height}
