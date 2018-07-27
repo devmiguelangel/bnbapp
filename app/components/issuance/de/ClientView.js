@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
-import moment from 'moment';
+import moment, { min } from 'moment';
 
 import { db } from './../../../utils/firebase';
 import validation from '@validation';
@@ -111,10 +111,17 @@ class ClientView extends Component {
     this.setState({ errors });
   }
 
-  /* validateBirthdate = (value, field = 'birthdate', minAge = 18, maxAge = 70) => {
-    const date = moment(value);
-    debugger
-  } */
+  validateBirthdate = (value, field = 'birthdate', minAge = 18, maxAge = 70) => {
+    const currentDate = moment().startOf('day');
+    const date = moment(value).startOf('day');
+    const age = currentDate.diff(date, 'years', true);
+
+    if (age >= minAge && age <= maxAge) {
+      return true;
+    }
+    
+    return false;
+  }
 
   handleOpenPicker = (field, lists) => {
     const { data, options } = this.state;
@@ -148,6 +155,8 @@ class ClientView extends Component {
   }
 
   handleDatePickerValue = (field, value) => {
+    const error = this.validateBirthdate(value);
+    
     this.setState(prevState => ({
       data: {
         ...prevState.data,
@@ -156,10 +165,12 @@ class ClientView extends Component {
       labels: {
         ...prevState.labels,
         [field]: moment(value).format('DD/MM/YYYY'),
+      },
+      errors: {
+        ...prevState.errors,
+        birthdate: error ? null : 'El rango de edades es de [ 18 - 70 ] años',
       }
     }));
-
-    // this.validateBirthdate(value);
   }
 
   focusNextField = (field) => {
@@ -250,7 +261,11 @@ class ClientView extends Component {
     let numErrors = 0;
 
     for (const key in data) {
-      errors[key] = validation(key, data[key], 'deClientConstraints');
+      if (key == 'birthdate') {
+        errors[key] = this.validateBirthdate(data[key]) ? null : 'El rango de edades es de [ 18 - 70 ] años';
+      } else {
+        errors[key] = validation(key, data[key], 'deClientConstraints');
+      }
 
       if (errors[key]) {
         numErrors++;
