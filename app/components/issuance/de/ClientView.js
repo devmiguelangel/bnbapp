@@ -14,6 +14,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 
 import { db } from './../../../utils/firebase';
+import validation from '@validation';
 import PickerView from './../../../commons/PickerView';
 import DatePickerView from './../../../commons/DatePickerView';
 import LoadingView from './../../../commons/Loading';
@@ -55,6 +56,7 @@ class ClientView extends Component {
         extensions: [],
         activities: [],
       },
+      errors: {},
       isLoading: false,
     };
   }
@@ -97,7 +99,22 @@ class ClientView extends Component {
         [name]: value,
       }
     }));
+
+    this.validateOnChange(name, value);
   }
+
+  validateOnChange = (field, value) => {
+    const { errors } = this.state;
+
+    errors[field] = validation(field, value, 'deClientConstraints');
+
+    this.setState({ errors });
+  }
+
+  /* validateBirthdate = (value, field = 'birthdate', minAge = 18, maxAge = 70) => {
+    const date = moment(value);
+    debugger
+  } */
 
   handleOpenPicker = (field, lists) => {
     const { data, options } = this.state;
@@ -141,6 +158,8 @@ class ClientView extends Component {
         [field]: moment(value).format('DD/MM/YYYY'),
       }
     }));
+
+    // this.validateBirthdate(value);
   }
 
   focusNextField = (field) => {
@@ -226,6 +245,24 @@ class ClientView extends Component {
   }
 
   handleStore = () => {
+    const { data } = this.state;
+    let errors = {};
+    let numErrors = 0;
+
+    for (const key in data) {
+      errors[key] = validation(key, data[key], 'deClientConstraints');
+
+      if (errors[key]) {
+        numErrors++;
+      }
+    }
+
+    this.setState({ errors });
+
+    if (numErrors > 0) {
+      return false;
+    }
+
     this.setState({ isLoading: true });
 
     this.clientStore()
@@ -247,7 +284,7 @@ class ClientView extends Component {
   }
 
   render() {
-    const { data, labels, options, isLoading } = this.state;
+    const { data, labels, options, errors, isLoading } = this.state;
 
     return (
       <Fragment>
@@ -274,8 +311,10 @@ class ClientView extends Component {
                     value={data.firstName}
                     onChangeText={(value) => this.handleInputChange('firstName', value)}
                     onSubmitEditing={() => this.focusNextField('lastName')}
+                    onBlur={() => this.validateOnChange('firstName', data.firstName)}
                   />
                 </View>
+                {errors.firstName ? (<Text style={styles.formError}>{errors.firstName}</Text>) : null}
               </View>
               <View style={styles.formGroup}>
                 <Text style={styles.formLabel}>Apellido Paterno *</Text>
@@ -292,8 +331,10 @@ class ClientView extends Component {
                     value={data.lastName}
                     onChangeText={(value) => this.handleInputChange('lastName', value)}
                     onSubmitEditing={() => this.focusNextField('motherLastName')}
+                    onBlur={() => this.validateOnChange('lastName', data.lastName)}
                   />
                 </View>
+                {errors.lastName ? (<Text style={styles.formError}>{errors.lastName}</Text>) : null}
               </View>
             </View>
             
@@ -313,8 +354,10 @@ class ClientView extends Component {
                     value={data.motherLastName}
                     onChangeText={(value) => this.handleInputChange('motherLastName', value)}
                     onSubmitEditing={() => this.focusNextField('marriedName')}
+                    onBlur={() => this.validateOnChange('motherLastName', data.motherLastName)}
                   />
                 </View>
+                {errors.motherLastName ? (<Text style={styles.formError}>{errors.motherLastName}</Text>) : null}
               </View>
               <View style={styles.formGroup}>
                 <Text style={styles.formLabel}>Apellido de Casada</Text>
@@ -331,8 +374,10 @@ class ClientView extends Component {
                     value={data.marriedName}
                     onChangeText={(value) => this.handleInputChange('marriedName', value)}
                     onSubmitEditing={() => this.focusNextField('dni')}
+                    onBlur={() => this.validateOnChange('marriedName', data.marriedName)}
                   />
                 </View>
+                {errors.marriedName ? (<Text style={styles.formError}>{errors.marriedName}</Text>) : null}
               </View>
             </View>
             
@@ -352,8 +397,10 @@ class ClientView extends Component {
                     value={data.dni}
                     onChangeText={(value) => this.handleInputChange('dni', value)}
                     onSubmitEditing={() => this.focusNextField('complement')}
+                    onBlur={() => this.validateOnChange('dni', data.dni)}
                   />
                 </View>
+                {errors.dni ? (<Text style={styles.formError}>{errors.dni}</Text>) : null}
               </View>
               <View style={styles.formGroup}>
                 <Text style={styles.formLabel}>Complemento</Text>
@@ -369,8 +416,10 @@ class ClientView extends Component {
                     underlineColorAndroid="transparent"
                     value={data.complement}
                     onChangeText={(value) => this.handleInputChange('complement', value)}
+                    onBlur={() => this.validateOnChange('complement', data.complement)}
                   />
                 </View>
+                {errors.complement ? (<Text style={styles.formError}>{errors.complement}</Text>) : null}
               </View>
             </View>
             
@@ -402,6 +451,7 @@ class ClientView extends Component {
                     </View>
                   )
                 }
+                {errors.extension ? (<Text style={styles.formError}>{errors.extension}</Text>) : null}
               </View>
 
               <View style={styles.formGroup}>
@@ -416,6 +466,7 @@ class ClientView extends Component {
                   </Text>
                   <Icon name="ios-calendar" size={30} color={$ColorFormText} />
                 </TouchableOpacity>
+                {errors.birthdate ? (<Text style={styles.formError}>{errors.birthdate}</Text>) : null}
               </View>
             </View>
 
@@ -434,8 +485,10 @@ class ClientView extends Component {
                     value={data.placeResidence}
                     onChangeText={(value) => this.handleInputChange('placeResidence', value)}
                     onSubmitEditing={() => this.focusNextField('locality')}
+                    onBlur={() => this.validateOnChange('placeResidence', data.placeResidence)}
                   />
                 </View>
+                {errors.placeResidence ? (<Text style={styles.formError}>{errors.placeResidence}</Text>) : null}
               </View>
             </View>
             
@@ -455,8 +508,10 @@ class ClientView extends Component {
                     value={data.locality}
                     onChangeText={(value) => this.handleInputChange('locality', value)}
                     onSubmitEditing={() => this.focusNextField('homeAddress')}
+                    onBlur={() => this.validateOnChange('locality', data.locality)}
                   />
                 </View>
+                {errors.locality ? (<Text style={styles.formError}>{errors.locality}</Text>) : null}
               </View>
             </View>
 
@@ -475,8 +530,10 @@ class ClientView extends Component {
                     underlineColorAndroid="transparent"
                     value={data.homeAddress}
                     onChangeText={(value) => this.handleInputChange('homeAddress', value)}
+                    onBlur={() => this.validateOnChange('homeAddress', data.homeAddress)}
                   />
                 </View>
+                {errors.homeAddress ? (<Text style={styles.formError}>{errors.homeAddress}</Text>) : null}
               </View>
             </View>
             
@@ -495,8 +552,10 @@ class ClientView extends Component {
                     underlineColorAndroid="transparent"
                     value={data.businessAddress}
                     onChangeText={(value) => this.handleInputChange('businessAddress', value)}
+                    onBlur={() => this.validateOnChange('businessAddress', data.businessAddress)}
                   />
                 </View>
+                {errors.businessAddress ? (<Text style={styles.formError}>{errors.businessAddress}</Text>) : null}
               </View>
             </View>
             
@@ -515,8 +574,10 @@ class ClientView extends Component {
                     underlineColorAndroid="transparent"
                     value={data.workplace}
                     onChangeText={(value) => this.handleInputChange('workplace', value)}
+                    onBlur={() => this.validateOnChange('workplace', data.workplace)}
                   />
                 </View>
+                {errors.workplace ? (<Text style={styles.formError}>{errors.workplace}</Text>) : null}
               </View>
             </View>
 
@@ -548,6 +609,7 @@ class ClientView extends Component {
                     </View>
                   )
                 }
+                {errors.activity ? (<Text style={styles.formError}>{errors.activity}</Text>) : null}
               </View>
             </View>
 
@@ -565,11 +627,12 @@ class ClientView extends Component {
                     underlineColorAndroid="transparent"
                     value={data.occupationDescription}
                     onChangeText={(value) => this.handleInputChange('occupationDescription', value)}
+                    onBlur={() => this.validateOnChange('occupationDescription', data.occupationDescription)}
                   />
                 </View>
+                {errors.occupationDescription ? (<Text style={styles.formError}>{errors.occupationDescription}</Text>) : null}
               </View>
             </View>
-
 
             <View style={styles.formContainer}>
               <View style={styles.formGroup}>
@@ -587,8 +650,10 @@ class ClientView extends Component {
                     value={data.phoneNumberHome}
                     onChangeText={(value) => this.handleInputChange('phoneNumberHome', value)}
                     onSubmitEditing={() => this.focusNextField('phoneNumberMobile')}
+                    onBlur={() => this.validateOnChange('phoneNumberHome', data.phoneNumberHome)}
                   />
                 </View>
+                {errors.phoneNumberHome ? (<Text style={styles.formError}>{errors.phoneNumberHome}</Text>) : null}
               </View>
               <View style={styles.formGroup}>
                 <Text style={styles.formLabel}>Teléfono 2</Text>
@@ -605,8 +670,10 @@ class ClientView extends Component {
                     value={data.phoneNumberMobile}
                     onChangeText={(value) => this.handleInputChange('phoneNumberMobile', value)}
                     onSubmitEditing={() => this.focusNextField('phoneNumberOffice')}
+                    onBlur={() => this.validateOnChange('phoneNumberMobile', data.phoneNumberMobile)}
                   />
                 </View>
+                {errors.phoneNumberMobile ? (<Text style={styles.formError}>{errors.phoneNumberMobile}</Text>) : null}
               </View>
             </View>
 
@@ -626,8 +693,10 @@ class ClientView extends Component {
                     value={data.phoneNumberOffice}
                     onChangeText={(value) => this.handleInputChange('phoneNumberOffice', value)}
                     onSubmitEditing={() => this.focusNextField('email')}
+                    onBlur={() => this.validateOnChange('phoneNumberOffice', data.phoneNumberOffice)}
                   />
                 </View>
+                {errors.phoneNumberOffice ? (<Text style={styles.formError}>{errors.phoneNumberOffice}</Text>) : null}
               </View>
               <View style={styles.formGroup}>
                 <Text style={styles.formLabel}>Correo electrónico</Text>
@@ -644,8 +713,10 @@ class ClientView extends Component {
                     value={data.email}
                     onChangeText={(value) => this.handleInputChange('email', value)}
                     onSubmitEditing={() => this.focusNextField('weight')}
+                    onBlur={() => this.validateOnChange('email', data.email)}
                   />
                 </View>
+                {errors.email ? (<Text style={styles.formError}>{errors.email}</Text>) : null}
               </View>
             </View>
 
@@ -665,8 +736,10 @@ class ClientView extends Component {
                     value={data.weight}
                     onChangeText={(value) => this.handleInputChange('weight', value)}
                     onSubmitEditing={() => this.focusNextField('height')}
+                    onBlur={() => this.validateOnChange('weight', data.weight)}
                   />
                 </View>
+                {errors.weight ? (<Text style={styles.formError}>{errors.weight}</Text>) : null}
               </View>
               <View style={styles.formGroup}>
                 <Text style={styles.formLabel}>Estatura *</Text>
@@ -683,35 +756,35 @@ class ClientView extends Component {
                     value={data.height}
                     onChangeText={(value) => this.handleInputChange('height', value)}
                     onSubmitEditing={() => this.handleStore()}
+                    onBlur={() => this.validateOnChange('height', data.height)}
                   />
                 </View>
+                {errors.height ? (<Text style={styles.formError}>{errors.height}</Text>) : null}
               </View>
             </View>
 
             <TouchableOpacity
-              style={[styles.btnSuccessLarge, { marginTop: 100 }]}
+              style={[styles.btnSuccessLarge, { marginTop: 120 }]}
               activeOpacity={0.8}
               onPress={() => this.handleStore()}
             >
               <Text style={styles.btnSuccessLargeText}>Registrar Cliente</Text>
             </TouchableOpacity>
           </ScrollView>
-          
-          {
-            Platform.OS === 'ios' && (
-              <PickerView
-                ref={(pickerView) => { this.pickerView = pickerView; }}
-                handleValue={this.handleValuePicker}
-              />
-            )
-          }
-
-          <DatePickerView
-            ref={(_datePicker) => { this._datePicker = _datePicker; }}
-            handleValue={this.handleDatePickerValue}
-          />
-
         </View>
+        {
+          Platform.OS === 'ios' && (
+            <PickerView
+              ref={(pickerView) => { this.pickerView = pickerView; }}
+              handleValue={this.handleValuePicker}
+            />
+          )
+        }
+
+        <DatePickerView
+          ref={(_datePicker) => { this._datePicker = _datePicker; }}
+          handleValue={this.handleDatePickerValue}
+        />
       </Fragment>
     )
   }

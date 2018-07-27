@@ -16,10 +16,10 @@ import numeral from 'numeral';
 
 import * as actions from './../../../actions/home';
 import { auth, db } from './../../../utils/firebase';
+import validation from '@validation';
 import { getDetails } from './DetailView';
 import PickerView from './../../../commons/PickerView';
 import LoadingView from './../../../commons/Loading';
-
 import styles, { $ColorDanger, $ColorFormText } from './../../../assets/css/styles';
 
 class DataView extends Component {
@@ -46,6 +46,7 @@ class DataView extends Component {
         termTypes: [],
         creditProducts: [],
       },
+      errors: {},
       isLoading: false,
     };
   }
@@ -134,9 +135,28 @@ class DataView extends Component {
   }
 
   handleStore = () => {
+    this.props.navigation.navigate('deDetail');
+    return false;
+    const { data } = this.state;
+    let errors = {};
+    let numErrors = 0;
+
+    for (const key in data) {
+      errors[key] = validation(key, data[key], 'deDataConstraints');
+
+      if (errors[key]) {
+        numErrors++;
+      }
+    }
+
+    this.setState({ errors });
+    
+    if (numErrors > 0) {
+      return false;
+    }
+
     this.handleLoading(true);
 
-    const { coverage, amountRequested, currency, term, termType, creditProduct } = this.state.data;
     const user = auth.currentUser;
     const date = moment();
 
@@ -145,16 +165,13 @@ class DataView extends Component {
       type: 'Q',
       issueNumber: 0,
       prefix: 'DE',
-      coverage,
-      creditProduct,
-      amountRequested: numeral(amountRequested).value(),
-      currency,
-      term: numeral(term).value(),
-      termType,
       issued: false,
       dateIssue: null,
       createdAt: date.toDate(),
       updatedAt: date.toDate(),
+      ...data,
+      amountRequested: numeral(data.amountRequested).value(),
+      term: numeral(data.term).value(),
     })
     .then(docRef => {
       this.handleLoading(false);
@@ -173,7 +190,7 @@ class DataView extends Component {
   }
 
   render() {
-    const { data, labels, options, isLoading } = this.state;
+    const { data, labels, options, errors, isLoading } = this.state;
 
     return (
       <Fragment>
@@ -211,6 +228,7 @@ class DataView extends Component {
                     </View>
                   )
                 }
+                {errors.coverage ? (<Text style={styles.formError}>{errors.coverage}</Text>) : null}
               </View>
             </View>
 
@@ -223,14 +241,13 @@ class DataView extends Component {
                     keyboardType="numeric"
                     autoCapitalize="none"
                     autoCorrect={false}
-                    placeholder={data.amountRequestedLabel}
-                    placeholderTextColor={$ColorFormText}
                     returnKeyType="next"
                     underlineColorAndroid="transparent"
                     value={data.amountRequested}
                     onChangeText={(value) => this.handleInputChange('amountRequested', value)}
                   />
                 </View>
+                {errors.amountRequested ? (<Text style={styles.formError}>{errors.amountRequested}</Text>) : null}
               </View>
               <View style={styles.formGroup}>
                 <Text style={styles.formLabel}>Moneda *</Text>
@@ -259,6 +276,7 @@ class DataView extends Component {
                     </View>
                   )
                 }
+                {errors.currency ? (<Text style={styles.formError}>{errors.currency}</Text>) : null}
               </View>
             </View>
             
@@ -271,14 +289,13 @@ class DataView extends Component {
                     keyboardType="numeric"
                     autoCapitalize="none"
                     autoCorrect={false}
-                    placeholder={data.termLabel}
-                    placeholderTextColor={$ColorFormText}
                     returnKeyType="next"
                     underlineColorAndroid="transparent"
                     value={data.term}
                     onChangeText={(value) => this.handleInputChange('term', value)}
                   />
                 </View>
+                {errors.term ? (<Text style={styles.formError}>{errors.term}</Text>) : null}
               </View>
               <View style={styles.formGroup}>
                 <Text style={styles.formLabel}>Tipo de Plazo *</Text>
@@ -307,6 +324,7 @@ class DataView extends Component {
                     </View>
                   )
                 }
+                {errors.termType ? (<Text style={styles.formError}>{errors.termType}</Text>) : null}
               </View>
             </View>
 
@@ -338,18 +356,11 @@ class DataView extends Component {
                     </View>
                   )
                 }
+                {errors.creditProduct ? (<Text style={styles.formError}>{errors.creditProduct}</Text>) : null}
               </View>
             </View>
-
-            {
-              Platform.OS === 'ios' && (
-                <PickerView
-                  ref={(pickerView) => { this.pickerView = pickerView; }}
-                  handleValue={this.handleValuePicker}
-                />
-              )
-            }
           </View>
+          
           <TouchableOpacity
             style={styles.btnSuccessLarge}
             activeOpacity={0.8}
@@ -358,6 +369,14 @@ class DataView extends Component {
             <Text style={styles.btnSuccessLargeText}>Siguiente</Text>
           </TouchableOpacity>
         </View>
+        {
+          Platform.OS === 'ios' && (
+            <PickerView
+              ref={(pickerView) => { this.pickerView = pickerView; }}
+              handleValue={this.handleValuePicker}
+            />
+          )
+        }
       </Fragment>
     )
   }

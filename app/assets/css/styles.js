@@ -292,6 +292,14 @@ export default StyleSheet.create({
     margin: 0,
     padding: 0
   },
+  formError: {
+    marginHorizontal: 8,
+    marginVertical: 1,
+    paddingLeft: 2,
+    fontFamily: $QuicksandMedium,
+    fontSize: 13,
+    color: $ColorDanger,
+  },
   /* Separator */
   separator: {
     flex: 1,
