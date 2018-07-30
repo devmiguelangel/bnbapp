@@ -22,11 +22,13 @@ class QuestionView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      questions: [],
-      observation: '',
+      questions: {
+        responses: [],
+        observation: '',
+      },
       errors: [],
       isLoading: false,
-      tendered: true,
+      tendered: false,
     };
   }
 
@@ -39,97 +41,115 @@ class QuestionView extends Component {
   });
 
   componentDidMount = () => {
-    const questions = [
-      {
-        id: 1,
-        order: 1,
-        expected: true,
-        response: false,
-        question: '¿Se encuentra usted actualmente sano?',
-        observation: '',
-      },
-      {
-        id: 2,
-        order: 2,
-        expected: false,
-        response: false,
-        question: '¿Tiene alguna enfermedad diagnosticada?. ¿Cuál?',
-        observation: '',
-      },
-      {
-        id: 3,
-        order: 3,
-        expected: false,
-        response: false,
-        question: '¿Tiene SIDA o es portador de HIV?',
-        observation: '',
-      },
-      {
-        id: 4,
-        order: 4,
-        expected: false,
-        response: false,
-        question: '¿Practica algún deporte a nivel profesional o considerado de alto riesgo? (Alpinismo, automovilismo, etc.)',
-        observation: '',
-      },
-      {
-        id: 5,
-        order: 5,
-        expected: false,
-        response: false,
-        question: '¿Ha recibido tratamiento por más de 30 días o le han recomendado exámenes médicos?',
-        observation: '',
-      },
-      {
-        id: 6,
-        order: 6,
-        expected: false,
-        response: false,
-        question: '¿Le han recetado medicamentos para su consumo por un lapso mayor a 30 días?',
-        observation: '',
-      },
-      {
-        id: 7,
-        order: 7,
-        expected: false,
-        response: false,
-        question: '¿Se ha sometido a intervenciones quirúrgicas ó ha sido hospitalizado por algún motivo?',
-        observation: '',
-      },
-      {
-        id: 8,
-        order: 8,
-        expected: false,
-        response: false,
-        question: '¿Realiza viajes en algún medio de transporte aéreo no comercial?',
-        observation: '',
-      },
-    ];
+    const questions = {
+      responses: [
+        {
+          id: 1,
+          order: 1,
+          expected: true,
+          response: false,
+          question: '¿Se encuentra usted actualmente sano?',
+          observation: '',
+        },
+        {
+          id: 2,
+          order: 2,
+          expected: false,
+          response: false,
+          question: '¿Tiene alguna enfermedad diagnosticada?. ¿Cuál?',
+          observation: '',
+        },
+        {
+          id: 3,
+          order: 3,
+          expected: false,
+          response: false,
+          question: '¿Tiene SIDA o es portador de HIV?',
+          observation: '',
+        },
+        {
+          id: 4,
+          order: 4,
+          expected: false,
+          response: false,
+          question: '¿Practica algún deporte a nivel profesional o considerado de alto riesgo? (Alpinismo, automovilismo, etc.)',
+          observation: '',
+        },
+        {
+          id: 5,
+          order: 5,
+          expected: false,
+          response: false,
+          question: '¿Ha recibido tratamiento por más de 30 días o le han recomendado exámenes médicos?',
+          observation: '',
+        },
+        {
+          id: 6,
+          order: 6,
+          expected: false,
+          response: false,
+          question: '¿Le han recetado medicamentos para su consumo por un lapso mayor a 30 días?',
+          observation: '',
+        },
+        {
+          id: 7,
+          order: 7,
+          expected: false,
+          response: false,
+          question: '¿Se ha sometido a intervenciones quirúrgicas ó ha sido hospitalizado por algún motivo?',
+          observation: '',
+        },
+        {
+          id: 8,
+          order: 8,
+          expected: false,
+          response: false,
+          question: '¿Realiza viajes en algún medio de transporte aéreo no comercial?',
+          observation: '',
+        },
+      ],
+      observation: '',
+    };
 
     this.setState({ questions });
   }
 
   toggleSwitch = (value, id) => {
     const { questions } = this.state;
-    questions.map(q => {
-      if (q.id === id) {
-        q.response = value;
+    questions.responses.map(res => {
+      if (res.id === id) {
+        res.response = value;
       }
 
-      return q;
+      return res;
     });
 
     const errors = this.validateQuestions(questions);
     
-    this.setState({ questions });
+    this.setState({
+      questions,
+      errors,
+    });
   }
 
   handleInputChange = (name, value) => {
-    const { questions } = this.state;
+    const { questions, tendered } = this.state;
     const errors = this.validateQuestions(questions);
+    
+    if (tendered) {
+      questions.responses.map(res => {
+        if (res.id === name) {
+          res.observation = value
+        }
 
+        return res;
+      });
+    } else {
+      questions[name] = value;
+    }
+    
     this.setState({
-      [name]: value,
+      questions,
       errors,
     });
   }
@@ -137,9 +157,9 @@ class QuestionView extends Component {
   validateQuestions = (questions) => {
     const errors = [];
 
-    questions.forEach(q => {
-      if (q.response != q.expected) {
-        errors.push(q.order);
+    questions.responses.forEach(res => {
+      if (res.response != res.expected) {
+        errors.push(res.id);
       }
     });
 
@@ -147,14 +167,13 @@ class QuestionView extends Component {
   }
 
   handleStore = () => {
-    const { questions, observation, tendered } = this.state;
+    const { questions, tendered } = this.state;
     const errors = this.validateQuestions(questions);
+    
+    this.setState({ errors });
 
-    if (tendered) {
-      
-    } else if (errors.length > 0 && !observation) {
-      this.setState({ errors });
-
+    if ((tendered && questions.responses.filter(res => errors.includes(res.id) && /^\s*$/.test(res.observation)).length > 0) 
+      || (!tendered && errors.length > 0 && /^\s*$/.test(questions.observation))) {
       return false;
     }
 
@@ -166,8 +185,7 @@ class QuestionView extends Component {
 
     db.collection('deDetails').doc(detailId)
       .update({
-        responses: questions,
-        responseObservation: observation,
+        questions: questions,
       })
       .then(() => {
         this.setState({ isLoading: false });
@@ -191,7 +209,7 @@ class QuestionView extends Component {
   }
 
   render() {
-    const { questions, observation, errors, tendered, isLoading } = this.state;
+    const { questions, errors, tendered, isLoading } = this.state;
 
     return (
       <Fragment>
@@ -205,26 +223,33 @@ class QuestionView extends Component {
           >
             <View style={[styles.container, { alignSelf: 'stretch', paddingBottom: 300, }]}>
               {
-                questions.map((question, index) => 
+                questions.responses.map((res, index) => 
                   <Fragment key={index}>
                     <View style={styles.questionBox}>
-                      <Text style={styles.questionNumber}>{question.order}.</Text>
-                      <Text style={styles.questionText}>{question.question}</Text>
+                      <Text style={styles.questionNumber}>{res.order}.</Text>
+                      <Text style={styles.questionText}>{res.question}</Text>
                       <Switch
-                        value={question.response}
-                        onValueChange={(value) => this.toggleSwitch(value, question.id)}
+                        value={res.response}
+                        onValueChange={(value) => this.toggleSwitch(value, res.id)}
                       />
                     </View>
                     {
                       tendered && (
-                        <View style={styles.formContainer}>
+                        <View style={[styles.formContainer, { flexDirection: 'column', }]}>
                           <View style={[styles.formGroup, styles.questionObservationBox]}>
                             <TextInput
                               style={styles.questionObservationText}
                               placeholder="En caso que la respuesta sea afirmativa, favor especificar"
-                              placeholderTextColor={$ColorFormText}
+                              placeholderTextColor="#78909C"
+                              value={res.observation}
+                              onChangeText={(value) => this.handleInputChange(res.id, value)}
                             />
                           </View>
+                          {
+                            errors.includes(res.id) && /^\s*$/.test(res.observation) ? (
+                              <Text style={styles.formError}>Especificación requerida</Text>
+                            ) : null
+                          }
                         </View>
                       )
                     }
@@ -245,12 +270,12 @@ class QuestionView extends Component {
                           placeholder="Observación"
                           placeholderTextColor="#CFD8DC"
                           underlineColorAndroid="transparent"
-                          value={observation}
+                          value={questions.observation}
                           onChangeText={(value) => this.handleInputChange('observation', value)}
                         />
                       </View>
                       {
-                        errors.length > 0 && !observation ? (
+                        errors.length > 0 && /^\s*$/.test(questions.observation) ? (
                           <Text style={styles.formError}>
                             Describa en detalle el motivo de sus respuestas que puedan indicar complicaciones de salud.
                           </Text>

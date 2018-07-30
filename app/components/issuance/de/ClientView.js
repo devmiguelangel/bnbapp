@@ -256,10 +256,6 @@ class ClientView extends Component {
   }
 
   handleStore = () => {
-    this.props.navigation.navigate('deQuestion', {
-      detailId: 'docRef.id',
-    });
-    return false;
     const { data } = this.state;
     let errors = {};
     let numErrors = 0;
